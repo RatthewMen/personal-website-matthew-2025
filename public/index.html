@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Field Disc Shooter 3D</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.159.0/examples/js/controls/OrbitControls.js"></script>
+  </head>
+  <body>
+    <header class="site-nav">
+      <div class="nav-inner">
+        <div class="brand">Matthew Ren</div>
+        <nav class="links">
+          <a href="#game" data-tab="game" class="nav-link">Game</a>
+          <a href="#about" data-tab="about" class="nav-link active">About</a>
+          <a href="#style" data-tab="style" class="nav-link">Style Guide</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="game-tab" class="tab">
+        <div id="hud">
+          <div class="row">
+            <div class="card">Score: <span id="score">0</span></div>
+            <div class="card">Discs: <span id="inventory">0</span></div>
+          </div>
+          <div class="row small">
+            <div class="pill">W/A/S/D: Move</div>
+            <div class="pill">Right Click + Drag: Pan camera</div>
+            <div class="pill">E: Pick up nearby disc</div>
+            <div class="pill">Left Click: Shoot</div>
+            <div class="pill">R: Reset</div>
+          </div>
+        </div>
+
+        <div id="overlay" class="hidden">
+          <div class="modal">
+            <h1>Goal!</h1>
+            <p>Nice shot. Press Space to continue.</p>
+          </div>
+        </div>
+
+        <div id="container"></div>
+      </section>
+
+      <section id="about-tab" class="tab active">
+        <div class="about-wrap">
+          <h1>Matthew Ren</h1>
+          <p>Hi, I’m Matthew Ren. I like making stuff work fast and feel good. Lately I’ve been building a small 3D game and messing with systems design.</p>
+          <p>I’m also big into Minecraft: redstone builds, server tinkering, datapacks, and modded automation. I love turning ideas into playable things—whether it’s a farm that never breaks or a quick prototype that’s fun in under a day.</p>
+          <div class="about-grid">
+            <div class="about-card">
+              <h2>What I’m into</h2>
+              <ul>
+                <li>Minecraft redstone, servers, datapacks, modding</li>
+                <li>VEX / robotics comps</li>
+                <li>Three.js and gameplay prototyping</li>
+                <li>Rapid web apps and tooling</li>
+              </ul>
+            </div>
+            <div class="about-card">
+              <h2>Contact</h2>
+              <p>Email: <span class="mono">goofygoober6769420@gmail.com</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="style-tab" class="tab">
+        <div class="style-wrap">
+          <h1>Style Guide</h1>
+          <p>Reference for colors, typography, components, and layout tokens used on this site.</p>
+
+          <h2>Colors</h2>
+          <div class="swatches">
+            <div class="swatch" style="--c:#7ccfff"><span>#7CCFFF</span></div>
+            <div class="swatch" style="--c:#d7e3f3"><span>#D7E3F3</span></div>
+            <div class="swatch" style="--c:#19232f"><span>#19232F</span></div>
+            <div class="swatch" style="--c:#0f1520"><span>#0F1520</span></div>
+            <div class="swatch" style="--c:#1c7a3a"><span>#1C7A3A</span></div>
+          </div>
+
+          <h2>Typography</h2>
+          <div class="type-scale">
+            <div><span class="label">H1</span><h1>Heading One</h1></div>
+            <div><span class="label">H2</span><h2>Heading Two</h2></div>
+            <div><span class="label">Body</span><p>Body text example. Quick brown fox jumps over the lazy dog.</p></div>
+            <div><span class="label mono">Mono</span><p class="mono">0123456789 abcdef MONO SAMPLE</p></div>
+          </div>
+
+          <h2>Components</h2>
+          <div class="sg-grid">
+            <div class="about-card">
+              <h3>Card</h3>
+              <p>Cards use a semi-transparent surface with a subtle border.</p>
+            </div>
+            <div class="about-card">
+              <h3>Pills</h3>
+              <div class="row small" style="margin-top:8px">
+                <div class="pill">Example Pill</div>
+                <div class="pill">Shortcut ⌘K</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function(){
+        const links = document.querySelectorAll('.nav-link');
+        function activate(tab){
+          document.querySelectorAll('.tab').forEach(s => s.classList.remove('active'));
+          document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+          const id = `#${tab}-tab`;
+          const section = document.querySelector(id);
+          if (section) section.classList.add('active');
+          const activeLink = document.querySelector(`[data-tab="${tab}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+        links.forEach(l => l.addEventListener('click', e => {
+          e.preventDefault();
+          activate(l.getAttribute('data-tab'));
+        }));
+      })();
+    </script>
+
+    <script src="game.js"></script>
+  </body>
+  </html>
+
+
+

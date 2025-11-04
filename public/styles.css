@@ -1,0 +1,166 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(1200px 800px at 70% 10%, #19232f 0%, #0f1520 60%, #0b111b 100%);
+  color: #e6eef8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Simple site nav */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: rgba(10, 14, 22, 0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+}
+.site-nav .nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-nav .brand {
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.site-nav .links {
+  display: flex;
+  gap: 12px;
+}
+.site-nav .nav-link {
+  color: #d7e3f3;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.site-nav .nav-link.active {
+  background: rgba(124, 207, 255, 0.15);
+  color: #7ccfff;
+}
+
+main { padding-top: 48px; }
+
+.tab { display: none; }
+.tab.active { display: block; }
+
+#container {
+  position: fixed;
+  inset: 0;
+}
+
+#hud {
+  position: fixed;
+  top: 60px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#hud .row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#hud .row.small {
+  opacity: 0.85;
+}
+
+.card {
+  pointer-events: auto;
+  background: rgba(19, 27, 39, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 8px 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.pill {
+  pointer-events: auto;
+  background: rgba(36, 46, 64, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 20;
+}
+
+/* About page */
+.about-wrap {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+.about-wrap h1 { color: #7ccfff; margin-bottom: 8px; }
+.about-wrap p { color: #c7d7ea; margin: 8px 0 14px; }
+.about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 10px; }
+.about-card { background: rgba(19,27,39,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; }
+.about-card h2 { margin-bottom: 6px; color: #dfe9f6; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+/* Style Guide */
+.style-wrap { max-width: 1100px; margin: 80px auto; padding: 0 20px; }
+.style-wrap h1 { color: #7ccfff; margin-bottom: 8px; }
+.style-wrap h2 { color: #dfe9f6; margin: 18px 0 10px; }
+.style-wrap p { color: #c7d7ea; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 10px 0 6px; }
+.swatch { background: rgba(19,27,39,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 10px; }
+.swatch::before { content: ""; width: 28px; height: 28px; border-radius: 6px; background: var(--c); border: 1px solid rgba(255,255,255,0.2); }
+.swatch span { color: #d7e3f3; }
+.type-scale { display: grid; gap: 6px; margin-bottom: 8px; }
+.type-scale .label { display: inline-block; min-width: 40px; color: #9fb5d4; margin-right: 8px; font-size: 12px; }
+.sg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
+
+#overlay.hidden {
+  display: none;
+}
+
+.modal {
+  background: rgba(20, 26, 38, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 32px;
+  text-align: center;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+}
+
+.modal h1 {
+  font-size: 40px;
+  margin-bottom: 8px;
+  color: #7ccfff;
+}
+
+.modal p {
+  color: #c7d7ea;
+}
+
+
+
