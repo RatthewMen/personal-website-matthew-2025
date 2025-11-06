@@ -15,6 +15,11 @@ let score = 0;
 let goalGroups = [];
 let highGoalZones = []; // { center: THREE.Vector3, radius: number, height: number, thickness: number }
 let overlayEl, scoreEl, inventoryEl;
+let timerEl;
+let endOverlayEl, endSummaryEl;
+let runStartTime = null;
+let finished = false;
+let runElapsedMs = 0;
 // Tunables
 const TURN_SMOOTH_BASE = 0.2;     // smaller base => faster turn response
 const CAMERA_SMOOTH_BASE = 0.3;   // smaller base => faster camera follow
@@ -28,6 +33,10 @@ const PAN_SENSITIVITY = 0.007;    // radians per pixel for right-drag pan
 let isPanning = false;
 let lastPanX = 0;
 
+// Player dimensions (visual and hitbox are the same)
+const PLAYER_RADIUS = 0.45;
+const PLAYER_HEIGHT = 1.6;
+
 if (typeof THREE === 'undefined') {
   showLibError();
 } else {
@@ -40,6 +49,9 @@ function init() {
   overlayEl = document.getElementById('overlay');
   scoreEl = document.getElementById('score');
   inventoryEl = document.getElementById('inventory');
+  timerEl = document.getElementById('timer');
+  endOverlayEl = document.getElementById('end-overlay');
+  endSummaryEl = document.getElementById('end-summary');
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0b111b);
@@ -240,11 +252,12 @@ function tryLoadFieldTexture(floorMat) {
 }
 
 function spawnPlayer() {
-  const bodyGeo = new THREE.CapsuleGeometry(0.4, 0.8, 8, 16);
+  // Use a cylinder so the hitbox matches the shape exactly
+  const bodyGeo = new THREE.CylinderGeometry(PLAYER_RADIUS, PLAYER_RADIUS, PLAYER_HEIGHT, 24);
   const bodyMat = new THREE.MeshStandardMaterial({ color: 0x7ccfff, roughness: 0.4, metalness: 0.1 });
   playerBody = new THREE.Mesh(bodyGeo, bodyMat);
   playerBody.castShadow = true; playerBody.receiveShadow = true;
-  playerBody.position.set(0, 0.9, 4);
+  playerBody.position.set(0, PLAYER_HEIGHT / 2, 4);
   scene.add(playerBody);
 
   player = {
@@ -310,6 +323,7 @@ function tryPickup() {
     scene.remove(disc);
     inventory += 1;
     inventoryEl.textContent = inventory;
+    ensureRunStarted();
     return;
   }
 
@@ -321,6 +335,7 @@ function tryPickup() {
       projectiles.splice(i, 1);
       inventory += 1;
       inventoryEl.textContent = inventory;
+      ensureRunStarted();
       return;
     }
   }
@@ -328,6 +343,7 @@ function tryPickup() {
 
 function shoot() {
   if (inventory <= 0) return;
+  ensureRunStarted();
 
   const disc = makeDisc(0xff8855);
   const start = playerBody.position.clone();
@@ -371,10 +387,14 @@ function resetGame() {
   // Respawn discs
   scatterDiscs(10);
   // Reset player
-  playerBody.position.set(0, 0.9, 4);
+  playerBody.position.set(0, PLAYER_HEIGHT / 2, 4);
   player.velocity.set(0, 0, 0);
   // HUD
   inventory = 0; inventoryEl.textContent = inventory;
+  score = 0; scoreEl.textContent = score;
+  finished = false; runStartTime = null; runElapsedMs = 0;
+  if (timerEl) timerEl.textContent = formatTime(0);
+  if (endOverlayEl) endOverlayEl.classList.add('hidden');
 }
 
 function animate() {
@@ -384,6 +404,7 @@ function animate() {
   updatePlayer(dt);
   updateProjectiles(dt);
   updateChaseCamera(dt);
+  updateTimerDisplay();
 
   renderer.render(scene, camera);
 }
@@ -410,6 +431,7 @@ function updatePlayer(dt) {
       .multiplyScalar(player.speed);
     player.velocity.x = move.x;
     player.velocity.z = move.z;
+    ensureRunStarted();
   } else {
     // Friction
     const decay = Math.max(0, 1 - player.friction * dt);
@@ -420,11 +442,11 @@ function updatePlayer(dt) {
 
   // Integrate
   playerBody.position.addScaledVector(player.velocity, dt);
-  playerBody.position.y = 0.9;
+  playerBody.position.y = PLAYER_HEIGHT / 2;
 
   // Clamp to field
-  playerBody.position.x = THREE.MathUtils.clamp(playerBody.position.x, -fieldBounds.halfWidth + 0.6, fieldBounds.halfWidth - 0.6);
-  playerBody.position.z = THREE.MathUtils.clamp(playerBody.position.z, -fieldBounds.halfLength + 0.6, fieldBounds.halfLength - 0.6);
+  playerBody.position.x = THREE.MathUtils.clamp(playerBody.position.x, -fieldBounds.halfWidth + PLAYER_RADIUS, fieldBounds.halfWidth - PLAYER_RADIUS);
+  playerBody.position.z = THREE.MathUtils.clamp(playerBody.position.z, -fieldBounds.halfLength + PLAYER_RADIUS, fieldBounds.halfLength - PLAYER_RADIUS);
 
   // Face movement direction with smoothed yaw to prevent jitter
   if (player.velocity.lengthSq() > 0.001) {
@@ -532,12 +554,15 @@ function updateProjectiles(dt) {
       }
     }
     if (scored) {
-    score += 1;
-    scoreEl.textContent = score;
-    scene.remove(p.mesh);
-    projectiles.splice(i, 1);
-    continue;
-  }
+      score += 1;
+      scoreEl.textContent = score;
+      scene.remove(p.mesh);
+      projectiles.splice(i, 1);
+      if (score >= 10 && !finished) {
+        finishRun();
+      }
+      continue;
+    }
 
     // Convert to ground disc if very slow and on ground (so it can be picked up)
     if (p.velocity.lengthSq() < 0.05 && p.mesh.position.y <= yMin + 0.001) {
@@ -581,6 +606,106 @@ function showLibError() {
   <div style="opacity:0.9;">Check your internet connection or CDN access.\
   <div style=\"margin-top:10px\">If you are offline, we can switch to local files.</div></div></div>';
   document.body.appendChild(overlay);
+}
+
+function ensureRunStarted() {
+  if (finished) return;
+  if (runStartTime == null) runStartTime = performance.now();
+}
+
+function formatTime(ms) {
+  const total = Math.max(0, Math.floor(ms));
+  const m = Math.floor(total / 60000);
+  const s = Math.floor((total % 60000) / 1000);
+  const mm = String(m);
+  const ss = String(s).padStart(2, '0');
+  const ms3 = String(total % 1000).padStart(3, '0');
+  return `${mm}:${ss}.${ms3}`;
+}
+
+async function finishRun() {
+  finished = true;
+  const end = performance.now();
+  const elapsed = runStartTime == null ? 0 : Math.floor(end - runStartTime);
+  runElapsedMs = elapsed;
+  let username = (typeof window !== 'undefined' && window.localStorage && localStorage.getItem('username')) || '';
+  try {
+    const input = prompt('Enter username for leaderboard', username || 'Player');
+    if (input !== null) {
+      username = String(input).trim() || 'Anonymous';
+      if (window.localStorage) localStorage.setItem('username', username);
+    } else if (!username) {
+      username = 'Anonymous';
+    }
+  } catch {
+    username = username || 'Anonymous';
+  }
+
+  let summary = `Time: ${formatTime(elapsed)}`;
+  try {
+    if (window.Leaderboard && window.Leaderboard.ready) {
+      const { rank } = await window.Leaderboard.submitRun(username, elapsed);
+      if (typeof rank === 'number' && isFinite(rank)) {
+        summary += ` — Placed #${rank}`;
+      } else {
+        // Prefer cached full leaderboard if available
+        try {
+          const getAll = window.Leaderboard && typeof window.Leaderboard.getAllRows === 'function' ? window.Leaderboard.getAllRows : null;
+          const rows = getAll ? getAll() : null;
+          if (Array.isArray(rows) && rows.length > 0) {
+            let faster = 0;
+            for (let i = 0; i < rows.length; i++) {
+              const t = rows[i] && rows[i].timeMs;
+              if (typeof t === 'number' && t < elapsed) faster += 1;
+            }
+            const place = faster + 1;
+            if (place > 0 && isFinite(place)) summary += ` — Placed #${place}`;
+          } else {
+            // Final fallback: compute rank via RTDB REST if available
+            const cfg = (window && window.FIREBASE_CONFIG) || {};
+            if (cfg.databaseURL) {
+              try {
+                const orderBy = encodeURIComponent('"timeMs"');
+                const url = `${cfg.databaseURL.replace(/\/$/, '')}/runs.json?orderBy=${orderBy}&endAt=${elapsed}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                let faster = 0;
+                if (data && typeof data === 'object') {
+                  Object.values(data).forEach((val) => {
+                    if (val && typeof val.timeMs === 'number' && val.timeMs < elapsed) faster += 1;
+                  });
+                }
+                const place = faster + 1;
+                if (place > 0 && isFinite(place)) summary += ` — Placed #${place}`;
+              } catch (_) {
+                // ignore; show time only
+              }
+            }
+          }
+        } catch (_) {
+          // ignore; show time only
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Submit failed', e);
+  }
+
+  if (endSummaryEl && endOverlayEl) {
+    endSummaryEl.textContent = summary;
+    endOverlayEl.classList.remove('hidden');
+  }
+}
+
+function updateTimerDisplay() {
+  if (!timerEl) return;
+  let ms = 0;
+  if (finished) {
+    ms = runElapsedMs;
+  } else if (runStartTime != null) {
+    ms = Math.floor(performance.now() - runStartTime);
+  }
+  timerEl.textContent = formatTime(ms);
 }
 
 

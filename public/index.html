@@ -20,12 +20,15 @@
       </div>
     </header>
 
+    
+
     <main>
       <section id="game-tab" class="tab">
         <div id="hud">
           <div class="row">
             <div class="card">Score: <span id="score">0</span></div>
             <div class="card">Discs: <span id="inventory">0</span></div>
+            <div class="card">Time: <span id="timer">0:00.000</span></div>
           </div>
           <div class="row small">
             <div class="pill">W/A/S/D: Move</div>
@@ -36,10 +39,26 @@
           </div>
         </div>
 
+        <!-- Leaderboard visible only on Game tab, right side -->
+        <div id="leaderboard" class="card">
+          <div class="lb-header">Leaderboard</div>
+          <ol id="leaderboard-list"></ol>
+        </div>
+
         <div id="overlay" class="hidden">
           <div class="modal">
             <h1>Goal!</h1>
             <p>Nice shot. Press Space to continue.</p>
+          </div>
+        </div>
+
+        <div id="end-overlay" class="hidden">
+          <div class="modal">
+            <h1>Finished!</h1>
+            <p id="end-summary"></p>
+            <div class="row small" style="margin-top:10px">
+              <div class="pill">Press R to restart</div>
+            </div>
           </div>
         </div>
 
@@ -49,16 +68,16 @@
       <section id="about-tab" class="tab active">
         <div class="about-wrap">
           <h1>Matthew Ren</h1>
-          <p>Hi, I’m Matthew Ren. I like making stuff work fast and feel good. Lately I’ve been building a small 3D game and messing with systems design.</p>
+          <p>Hi, I’m Matthew Ren. I like making stuff work fast and feel good. Lately I’ve been building a small 3D game that is like VEX SPIN UP.</p>
           <p>I’m also big into Minecraft: redstone builds, server tinkering, datapacks, and modded automation. I love turning ideas into playable things—whether it’s a farm that never breaks or a quick prototype that’s fun in under a day.</p>
           <div class="about-grid">
             <div class="about-card">
               <h2>What I’m into</h2>
               <ul>
-                <li>Minecraft redstone, servers, datapacks, modding</li>
-                <li>VEX / robotics comps</li>
-                <li>Three.js and gameplay prototyping</li>
-                <li>Rapid web apps and tooling</li>
+                <li>Minecraft, Pokemon GO</li>
+                <li>VEX / FRC</li>
+                <li>Roblox Game Development</li>
+                <li>Sooky Game</li>
               </ul>
             </div>
             <div class="about-card">
@@ -125,9 +144,25 @@
           e.preventDefault();
           activate(l.getAttribute('data-tab'));
         }));
+        // Initial activation based on hash, default to about
+        const initial = (location.hash ? location.hash.slice(1) : 'about');
+        activate(initial);
       })();
     </script>
 
+<script>
+  window.FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCqU_xNT72v1mA56sy17ZSXLg_umWQsyw",
+    authDomain: "personalwebsite-ratthew.firebaseapp.com",
+    projectId: "personalwebsite-ratthew",
+    databaseURL: "https://personalwebsite-ratthew-default-rtdb.firebaseio.com",
+    storageBucket: "personalwebsite-ratthew.firebasestorage.app",
+    messagingSenderId: "42101150103",
+    appId: "1:42101150103:web:c00594a661fb2f9a5434d2"
+  };
+</script>
+    <script>window.USE_REALTIME_DB = true; // force RTDB for leaderboard</script>
+    <script type="module" src="leaderboard.js"></script>
     <script src="game.js"></script>
   </body>
   </html>
