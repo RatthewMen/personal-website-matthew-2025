@@ -13,8 +13,8 @@
       <div class="nav-inner">
         <div class="brand">Matthew Ren</div>
         <nav class="links">
-          <a href="#game" data-tab="game" class="nav-link">Game</a>
           <a href="#about" data-tab="about" class="nav-link active">About</a>
+          <a href="#game" data-tab="game" class="nav-link">Game</a>
           <a href="#style" data-tab="style" class="nav-link">Style Guide</a>
         </nav>
       </div>
@@ -83,9 +83,42 @@
                 <li>Sooky Game</li>
               </ul>
             </div>
+            <div class="about-card game-card" id="sooky-card">
+              <h2>Sooky Game</h2>
+              <div class="game-thumb">
+                <img id="sooky-thumb" src="../sookygame%20thumbnail.png" alt="Sooky Gam thumbnail" loading="lazy" />
+              </div>
+              <div id="sooky-desc" data-lockdesc="true">
+                <p>his game is very sooky (im scared).</p>
+                <p>Try to survive 2 minutes in a procedurally generated map. Fight enemies to get points, and use those points to buy more weapons.</p>
+                <p>Made By: Zachary Zhang, Matthew Ren, Dawson Peng, Mike Dai, Mark Dai, James Grazcyk</p>
+              </div>
+              <div class="row small" style="margin-top:8px">
+                <a class="pill" href="https://www.roblox.com/games/108476677636434/Sooky-Gam" target="_blank" rel="noopener noreferrer">Play on Roblox →</a>
+              </div>
+            </div>
+            <div class="about-card github-card" id="github-card">
+              <h2>GitHub</h2>
+              <p id="about-gh-last" style="margin:6px 0 8px">Loading last activity…</p>
+              <div class="gh-chart-box">
+                <img id="about-gh-chart" alt="GitHub contributions chart" loading="lazy" />
+              </div>
+              <h3 class="lb-subheader" style="margin-top:10px">Projects</h3>
+              <ul id="about-gh-repos" class="gh-repo-list"></ul>
+              <div class="row small" style="margin-top:8px">
+                <a class="repo-chip repo-action" id="open-gh-chip" href="https://github.com/RatthewMen">
+                  <img class="avatar" alt="avatar" />
+                  <span class="name">Open GitHub Page →</span>
+                  <span class="meta"><span class="handle"></span></span>
+                </a>
+              </div>
+            </div>
             <div class="about-card">
               <h2>Contact</h2>
               <p>Email: <span class="mono">goofygoober6769420@gmail.com</span></p>
+              <div class="row small" style="margin-top:8px">
+                <a class="pill" href="https://github.com/RatthewMen" target="_blank" rel="noopener noreferrer">GitHub Profile →</a>
+              </div>
             </div>
           </div>
         </div>
@@ -154,12 +187,18 @@
           if (section) section.classList.add('active');
           const activeLink = document.querySelector(`[data-tab="${tab}"]`);
           if (activeLink) activeLink.classList.add('active');
+          // Lock page scroll on Game tab only
+          document.body.classList.toggle('lock-scroll', tab === 'game');
         }
         // Expose for external triggers (e.g., clicking sidebar Leaderboard)
         window.activateTab = activate;
         links.forEach(l => l.addEventListener('click', e => {
-          e.preventDefault();
-          activate(l.getAttribute('data-tab'));
+          const tab = l.getAttribute('data-tab');
+          // Only intercept internal hash tabs; allow normal navigation for full pages
+          if (tab) {
+            e.preventDefault();
+            activate(tab);
+          }
         }));
         // Initial activation based on hash, default to about
         const initial = (location.hash ? location.hash.slice(1) : 'about');
@@ -167,6 +206,56 @@
         window.addEventListener('hashchange', () => {
           const tab = (location.hash ? location.hash.slice(1) : 'about');
           activate(tab);
+        });
+      })();
+    </script>
+
+    <script>
+      (function(){
+        // Initialize GitHub About card when visible, then auto-refresh via module
+        const card = document.getElementById('github-card');
+        if (!card) return;
+        const username = 'RatthewMen';
+        let loaded = false;
+        const load = () => {
+          if (loaded) return; loaded = true;
+          if (window.GitHubUI) {
+            window.GitHubUI.initAboutCard({
+              username,
+              chartImgId: 'about-gh-chart',
+              lastElId: 'about-gh-last',
+              reposListId: 'about-gh-repos',
+              refreshMs: 120000
+            });
+          }
+        };
+        const io = new IntersectionObserver((entries)=>{
+          entries.forEach(en => { if (en.isIntersecting) { load(); io.disconnect(); } });
+        }, { root: null, threshold: 0.25 });
+        io.observe(card);
+      })();
+    </script>
+
+    <script>
+      (function(){
+        // Mouse-follow gradient for About tab
+        const about = document.getElementById('about-tab');
+        if (!about) return;
+        let raf = 0;
+        function handleMove(e){
+          const rect = about.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            about.style.setProperty('--gx', x.toFixed(1) + '%');
+            about.style.setProperty('--gy', y.toFixed(1) + '%');
+          });
+        }
+        about.addEventListener('mousemove', handleMove);
+        about.addEventListener('mouseleave', () => {
+          about.style.setProperty('--gx', '70%');
+          about.style.setProperty('--gy', '10%');
         });
       })();
     </script>
@@ -228,6 +317,78 @@
       })();
     </script>
 
+    
+
+    
+
+    <script>
+      (function(){
+        // Populate Sooky Game card from Roblox APIs with robust thumbnail fallback
+        const placeId = 108476677636434;
+        const thumbImg = document.getElementById('sooky-thumb');
+        const descEl = document.getElementById('sooky-desc');
+        if (!thumbImg || !descEl) return;
+
+        let thumbSet = false;
+        const setThumb = (url) => {
+          if (thumbSet || !url) return;
+          // Do not override local src (we already set it in markup)
+          if (thumbImg.getAttribute('src')) return;
+          thumbSet = true;
+          thumbImg.src = url;
+        };
+
+        // If image fails to load, clear so CSS placeholder shows
+        thumbImg.addEventListener('error', () => {
+          thumbImg.removeAttribute('src');
+        });
+
+        // Try place thumbnail first
+        fetch(`https://thumbnails.roblox.com/v1/places?placeIds=${placeId}&size=768x432&format=Png&isCircular=false`)
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(j => {
+            const url = j && j.data && j.data[0] && j.data[0].imageUrl;
+            setThumb(url);
+          })
+          .catch(() => {});
+
+        // Then fetch universe for description and icon fallback
+        fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`)
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(({universeId}) => {
+            if (!universeId) return Promise.reject();
+
+            // Fetch description
+            fetch(`https://games.roblox.com/v1/games?universeIds=${universeId}`)
+              .then(r => r.ok ? r.json() : Promise.reject())
+              .then(j => {
+                const g = j && j.data && j.data[0];
+                if (g) {
+                  const name = g.name || 'Sooky Gam';
+                  const description = (g.description || '').trim();
+                  if (!(descEl && descEl.dataset && descEl.dataset.lockdesc === 'true')) {
+                    descEl.textContent = description || `${name} on Roblox.`;
+                  }
+                }
+              })
+              .catch(() => {});
+
+            // Fallback icon for the experience (works even if place thumbnail missing)
+            return fetch(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png&isCircular=false`);
+          })
+          .then(r => r && r.ok ? r.json() : null)
+          .then(j => {
+            if (!j) return;
+            const url = j && j.data && j.data[0] && j.data[0].imageUrl;
+            setThumb(url);
+          })
+          .catch(() => {
+            // Fallback copy if all requests fail
+            descEl.textContent = 'Fast, silly, and a bit chaotic—Sooky Gam is a small Roblox project focused on quick rounds and goofy mechanics.';
+          });
+      })();
+    </script>
+
 <script>
   window.FIREBASE_CONFIG = {
     apiKey: "AIzaSyCqU_xNT72v1mA56sy17ZSXLg_umWQsyw",
@@ -241,6 +402,7 @@
 </script>
     <script>window.USE_REALTIME_DB = true; // force RTDB for leaderboard</script>
     <script type="module" src="leaderboard.js"></script>
+    <script type="module" src="github.js"></script>
     <script src="game.js"></script>
   </body>
   </html>

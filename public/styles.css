@@ -1,3 +1,8 @@
+.game-card#sooky-card .game-thumb { max-width: 60%; margin: 6px auto 10px; }
+.repo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #d7e3f3; background: rgba(36,46,64,0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 10px; transition: background 180ms ease, border-color 180ms ease, padding-right 220ms ease; overflow: hidden; }
+.repo-link:hover { background: rgba(36,46,64,0.6); border-color: rgba(255,255,255,0.12); padding-right: 20px; }
+.repo-link .name { font-weight: 600; }
+.repo-link .updated { color: #9fb5d4; font-size: 12px; margin-left: auto; opacity: 1; transform: none; white-space: nowrap; }
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,8 +17,11 @@ body {
   background: radial-gradient(1200px 800px at 70% 10%, #19232f 0%, #0f1520 60%, #0b111b 100%);
   color: #e6eef8;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
-  overflow: hidden;
+  overflow-y: auto; /* allow scrolling by default */
 }
+
+/* Lock scroll only when needed (e.g., Game tab) */
+body.lock-scroll { overflow: hidden; }
 
 /* Simple site nav */
 .site-nav {
@@ -30,9 +38,10 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 10px 14px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* center the nav links */
   align-items: center;
-  justify-content: space-between;
+  position: relative; /* for popover positioning */
 }
 .site-nav .brand {
   font-weight: 700;
@@ -52,6 +61,52 @@ body {
   background: rgba(124, 207, 255, 0.15);
   color: #7ccfff;
 }
+
+/* Rectangular GitHub button */
+#nav-github { border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: rgba(36,46,64,0.35); }
+#nav-github:hover { background: rgba(36,46,64,0.5); border-color: rgba(255,255,255,0.12); }
+
+/* GitHub About card */
+.github-card .gh-chart-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; padding: 6px; }
+.github-card .gh-chart-box img { width: 100%; height: auto; max-height: 160px; display: block; object-fit: contain; }
+.github-card .gh-repo-list, .gh-repo-list { list-style: decimal; padding-left: 18px; display: grid; gap: 6px; margin-top: 8px; }
+.github-card .gh-repo-list li { color: #c7d7ea; position: static; padding-left: 0; }
+.gh-repo-list li::before { display: none; }
+
+/* Repo chip compact default, expands on hover */
+.repo-chip { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #d7e3f3; background: rgba(36,46,64,0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 6px 10px; transition: background 180ms ease, border-color 180ms ease, padding-right 240ms ease, transform 180ms ease; }
+.repo-chip .meta { opacity: 0; transform: translateX(6px); max-width: 0; overflow: hidden; transition: max-width 260ms ease, opacity 180ms ease, transform 180ms ease; color: #9fb5d4; font-size: 12px; white-space: nowrap; }
+.repo-chip:hover .meta { opacity: 1; transform: translateX(0); max-width: 320px; }
+.repo-chip:hover { background: rgba(36,46,64,0.6); border-color: rgba(124,207,255,0.35); padding-right: 18px; box-shadow: 0 0 0 1px rgba(124,207,255,0.35), 0 8px 22px rgba(0,0,0,0.35); transform: translateY(-1px); }
+.repo-chip:hover .meta { opacity: 1; transform: translateX(0); }
+.repo-chip .name { font-weight: 600; }
+.repo-chip .updated { }
+.repo-chip .activity { }
+
+/* Open GitHub chip extras */
+.repo-action { position: relative; }
+.repo-action .avatar { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: inline-block; transition: transform 180ms ease, width 180ms ease, height 180ms ease; }
+.repo-action:hover .avatar { transform: scale(1.5); }
+.repo-action:hover .avatar { display: block; }
+.repo-action:hover .meta { opacity: 1; transform: translateX(0); }
+.repo-action .handle { margin-left: 6px; }
+
+/* GitHub page avatar hover expand */
+#gh-page-avatar { transition: transform 180ms ease; will-change: transform; }
+#gh-page-avatar:hover { transform: scale(1.6); }
+
+/* Onshape card tweaks (reuses GitHub styles) */
+.onshape-card .gh-repo-list { list-style: decimal; }
+
+/* GitHub preview popover */
+.gh-popover { position: absolute; top: 46px; right: 14px; width: 360px; background: rgba(19,27,39,0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; backdrop-filter: blur(10px); box-shadow: 0 20px 60px rgba(0,0,0,0.45); display: none; z-index: 40; }
+.gh-popover .row { display: grid; gap: 6px; }
+.gh-popover .thumb { height: 120px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.2); }
+.gh-popover .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gh-popover h4 { margin: 4px 0; color: #dfe9f6; }
+.gh-popover p { margin: 0; color: #c7d7ea; font-size: 12px; }
+.gh-popover ul { list-style: none; padding-left: 0; margin: 0; display: grid; gap: 6px; }
+.gh-popover li { color: #c7d7ea; font-size: 12px; }
 
 main { padding-top: 48px; }
 
@@ -242,12 +297,40 @@ main { padding-top: 48px; }
   margin: 80px auto;
   padding: 0 20px;
 }
+.tab#about-tab { position: relative; min-height: calc(100vh - 48px); overflow: hidden; --gx: 70%; --gy: 10%; }
+.tab#about-tab::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(900px 600px at var(--gx) var(--gy), rgba(255, 92, 135, 0.22), transparent 60%),
+    radial-gradient(900px 600px at 20% 80%, rgba(255, 179, 71, 0.18), transparent 65%),
+    radial-gradient(1200px 800px at 70% 10%, #2a123d 0%, #140a22 60%, #0b0614 100%);
+  z-index: -1;
+  pointer-events: none;
+}
 .about-wrap h1 { color: #7ccfff; margin-bottom: 8px; }
 .about-wrap p { color: #c7d7ea; margin: 8px 0 14px; }
-.about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 10px; }
-.about-card { background: rgba(19,27,39,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; }
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 10px; }
+.about-card { background: rgba(19,27,39,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 14px; transition: transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease; }
+.about-card:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35); border-color: rgba(255,255,255,0.12); background: rgba(25,33,48,0.65); }
 .about-card h2 { margin-bottom: 6px; color: #dfe9f6; }
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+/* About list bullets */
+.about-card ul { list-style: none; margin: 0; padding-left: 0; display: grid; gap: 8px; }
+.about-card li { position: relative; padding-left: 16px; color: #c7d7ea; }
+.about-card li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(180deg, #ffb347, #ff5c87); box-shadow: 0 0 0 2px rgba(255,255,255,0.06); transform: translateY(-50%); }
+
+/* Game card */
+.game-thumb { aspect-ratio: 16 / 9; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; margin: 6px 0 10px; display: grid; place-items: center; }
+.game-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; background: linear-gradient(135deg, rgba(255,92,135,0.15), rgba(255,179,71,0.10)); }
+
+/* Sooky card pop-out */
+.game-card { position: relative; }
+.game-card .game-thumb { transition: transform 240ms ease, box-shadow 240ms ease; }
+.game-card:hover { transform: translateY(-4px) scale(1.02); z-index: 2; }
+.game-card:hover .game-thumb { transform: scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
 
 /* Style Guide */
 .style-wrap { max-width: 1100px; margin: 80px auto; padding: 0 20px; }
