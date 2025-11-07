@@ -33,14 +33,19 @@ const PAN_SENSITIVITY = 0.007;    // radians per pixel for right-drag pan
 let isPanning = false;
 let lastPanX = 0;
 
+// Inventory/visual constants
+const INVENTORY_MAX = 3;
+const DISC_THICKNESS = 0.12; // matches makeDisc height
+let heldGroup;
+
 // Player dimensions (visual and hitbox are the same)
 const PLAYER_RADIUS = 0.45;
-const PLAYER_HEIGHT = 1.6;
+const PLAYER_HEIGHT = 1.2;
 
 // Third-person orbit camera parameters (Fortnite-style)
 let camPitch = 0.2; // radians; 0 = horizontal, + tilts downward
-const ORBIT_YAW_SENSITIVITY = 0.0025;
-const ORBIT_PITCH_SENSITIVITY = 0.0020;
+const ORBIT_YAW_SENSITIVITY = 0.0025 * 1.5; // +25%
+const ORBIT_PITCH_SENSITIVITY = 0.0020 * 1.5; // +25%
 const PITCH_MIN = 0.0;            // do not look upward above horizon
 const PITCH_MAX = Math.PI / 2;    // allow straight-down view
 let isRightMouseDown = false;
@@ -81,7 +86,7 @@ function init() {
   buildSpinUpField();
   buildSpinUpGoals();
   spawnPlayer();
-  scatterDiscs(10);
+  scatterDiscs(12);
 
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('keydown', onKeyDown);
@@ -278,6 +283,11 @@ function spawnPlayer() {
   playerBody.position.set(0, PLAYER_HEIGHT / 2, 4);
   scene.add(playerBody);
 
+  // Visual stack of held discs mounted atop the robot
+  heldGroup = new THREE.Group();
+  heldGroup.position.y = PLAYER_HEIGHT / 2;
+  playerBody.add(heldGroup);
+
   player = {
     velocity: new THREE.Vector3(),
     speed: 8,
@@ -287,6 +297,21 @@ function spawnPlayer() {
 
   // Initialize camera heading to player's facing
   camYaw = playerBody.rotation.y;
+}
+
+function updateHeldStack() {
+  if (!heldGroup) return;
+  // Clear current visuals
+  while (heldGroup.children.length > 0) {
+    const child = heldGroup.children[0];
+    heldGroup.remove(child);
+  }
+  // Rebuild stack
+  for (let i = 0; i < inventory; i++) {
+    const disc = makeDisc(0xffcf66);
+    disc.position.set(0, DISC_THICKNESS * (i + 0.5), 0);
+    heldGroup.add(disc);
+  }
 }
 
 function scatterDiscs(count) {
@@ -330,6 +355,7 @@ function onKeyUp(e) {
 }
 
 function tryPickup() {
+  if (inventory >= INVENTORY_MAX) return;
   let pickedIndex = -1;
   for (let i = 0; i < discsOnField.length; i++) {
     const d = discsOnField[i];
@@ -342,7 +368,8 @@ function tryPickup() {
     const disc = discsOnField.splice(pickedIndex, 1)[0];
     scene.remove(disc);
     inventory += 1;
-    inventoryEl.textContent = inventory;
+    if (inventoryEl) inventoryEl.textContent = inventory;
+    updateHeldStack();
     ensureRunStarted();
     return;
   }
@@ -354,7 +381,8 @@ function tryPickup() {
       scene.remove(pm);
       projectiles.splice(i, 1);
       inventory += 1;
-      inventoryEl.textContent = inventory;
+      if (inventoryEl) inventoryEl.textContent = inventory;
+      updateHeldStack();
       ensureRunStarted();
       return;
     }
@@ -389,12 +417,13 @@ function shoot() {
   disc.position.y = Math.max(disc.position.y, 0.9);
   scene.add(disc);
 
-  const speed = 11; // slightly slower
+  const speed = 9; // 10% slower
   const velocity = shotDir.multiplyScalar(speed);
   projectiles.push({ mesh: disc, velocity });
 
   inventory -= 1;
-  inventoryEl.textContent = inventory;
+  if (inventoryEl) inventoryEl.textContent = inventory;
+  updateHeldStack();
 }
 
 function resetGame() {
@@ -405,12 +434,15 @@ function resetGame() {
   discsOnField.forEach(d => scene.remove(d));
   discsOnField = [];
   // Respawn discs
-  scatterDiscs(10);
+  scatterDiscs(12);
   // Reset player
   playerBody.position.set(0, PLAYER_HEIGHT / 2, 4);
   player.velocity.set(0, 0, 0);
+  // Clear input states to avoid stuck movement after reset
+  for (const k in keys) keys[k] = false;
+  isRightMouseDown = false;
   // HUD
-  inventory = 0; inventoryEl.textContent = inventory;
+  inventory = 0; if (inventoryEl) inventoryEl.textContent = inventory; updateHeldStack();
   score = 0; scoreEl.textContent = score;
   finished = false; runStartTime = null; runElapsedMs = 0;
   if (timerEl) timerEl.textContent = formatTime(0);
@@ -571,7 +603,7 @@ function updateProjectiles(dt) {
       scoreEl.textContent = score;
       scene.remove(p.mesh);
       projectiles.splice(i, 1);
-      if (score >= 10 && !finished) {
+      if (score >= 12 && !finished) {
         finishRun();
       }
       continue;

@@ -67,7 +67,7 @@ main { padding-top: 48px; }
   position: fixed;
   top: 60px;
   left: 12px;
-  right: 12px;
+  width: 280px; /* left column */
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -83,6 +83,22 @@ main { padding-top: 48px; }
   max-height: calc(100vh - 80px);
   overflow: auto;
   z-index: 12;
+}
+
+#big-timer {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 36px;
+  padding: 12px 18px;
+  z-index: 15;
+  pointer-events: none;
+}
+
+#big-timer span {
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .lb-header {
@@ -163,8 +179,9 @@ main { padding-top: 48px; }
 
 #hud .row {
   display: flex;
+  flex-direction: column; /* stack vertically in left column */
+  align-items: flex-start; /* do not stretch to full width */
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 #hud .row.small {
