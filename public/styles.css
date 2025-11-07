@@ -332,6 +332,11 @@ main { padding-top: 48px; }
 .game-card:hover { transform: translateY(-4px) scale(1.02); z-index: 2; }
 .game-card:hover .game-thumb { transform: scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
 
+/* Game stats row */
+.game-stats { color: #9fb5d4; font-size: 12px; display: flex; gap: 8px; align-items: center; margin: 4px 0 6px; flex-wrap: wrap; }
+.game-stats .sep { opacity: 0.6; }
+.game-stats .stat { white-space: nowrap; }
+
 /* Style Guide */
 .style-wrap { max-width: 1100px; margin: 80px auto; padding: 0 20px; }
 .style-wrap h1 { color: #7ccfff; margin-bottom: 8px; }

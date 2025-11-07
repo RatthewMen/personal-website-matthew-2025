@@ -2,6 +2,35 @@
 // Exposes window.GitHubUI with render helpers
 
 const GitHubAPI = (() => {
+  const CACHE_PREFIX = 'ghcache:';
+  const ONE_HOUR = 60 * 60 * 1000;
+  function readCache(key){
+    try {
+      const raw = localStorage.getItem(CACHE_PREFIX + key);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (_) { return null; }
+  }
+  function writeCache(key, data){
+    try {
+      const wrapped = { data, fetchedAt: Date.now() };
+      localStorage.setItem(CACHE_PREFIX + key, JSON.stringify(wrapped));
+      return wrapped;
+    } catch (_) { return null; }
+  }
+  function isStale(cache, maxAgeMs){
+    if (!cache || !cache.fetchedAt) return true;
+    return (Date.now() - cache.fetchedAt) > (maxAgeMs || ONE_HOUR);
+  }
+  async function fetchJson(url){
+    try {
+      const r = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
+      const data = r.ok ? await r.json() : null;
+      return { ok: r.ok, status: r.status, headers: r.headers, data };
+    } catch (err) {
+      return { ok: false, status: 0, headers: new Headers(), data: null };
+    }
+  }
   const fmtPST = (dateStr) => {
     try {
       return new Intl.DateTimeFormat('en-US', {
@@ -14,15 +43,21 @@ const GitHubAPI = (() => {
   };
 
   async function fetchUser(username){
-    const r = await fetch(`https://api.github.com/users/${username}`);
-    if (!r.ok) return null;
-    return r.json();
+    const key = `user:${username}`;
+    const cached = readCache(key);
+    if (cached && !isStale(cached, ONE_HOUR)) return cached.data;
+    const { ok, status, data } = await fetchJson(`https://api.github.com/users/${username}`);
+    if (ok) { writeCache(key, data); return data; }
+    return cached ? cached.data : null;
   }
 
   async function fetchEvents(username, perPage = 100){
-    const r = await fetch(`https://api.github.com/users/${username}/events/public?per_page=${perPage}`);
-    if (!r.ok) return [];
-    return r.json();
+    const key = `events:${username}:${perPage}`;
+    const cached = readCache(key);
+    if (cached && !isStale(cached, ONE_HOUR)) return cached.data;
+    const { ok, status, data } = await fetchJson(`https://api.github.com/users/${username}/events/public?per_page=${perPage}`);
+    if (ok) { writeCache(key, data); return data; }
+    return cached ? cached.data : [];
   }
 
   function mapEventTypeToLabel(type){
@@ -48,13 +83,15 @@ const GitHubAPI = (() => {
   }
 
   async function fetchAllRepos(username){
+    const key = `repos:${username}`;
+    const cached = readCache(key);
+    if (cached && !isStale(cached, ONE_HOUR)) return cached.data;
     const all = [];
     let page = 1;
     const per = 100;
     while (true) {
-      const r = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=${per}&page=${page}`);
-      if (!r.ok) break;
-      const batch = await r.json();
+      const { ok, data: batch } = await fetchJson(`https://api.github.com/users/${username}/repos?sort=updated&per_page=${per}&page=${page}`);
+      if (!ok) break;
       if (!Array.isArray(batch) || batch.length === 0) break;
       all.push(...batch);
       if (batch.length < per) break;
@@ -63,7 +100,8 @@ const GitHubAPI = (() => {
     }
     // Ensure sorted by pushed_at/updated_at
     all.sort((a,b) => new Date(b.pushed_at || b.updated_at) - new Date(a.pushed_at || a.updated_at));
-    return all;
+    if (all.length > 0) writeCache(key, all);
+    return all.length > 0 ? all : (cached ? cached.data : []);
   }
 
   function buildRepoListItem(repo, lastActivityMap, opts){
@@ -101,25 +139,57 @@ window.GitHubUI = {
     const listEl = document.getElementById(reposListId);
     if (chart) chart.src = `https://ghchart.rshah.org/39d353/${username}`;
     async function populate(){
-      const [user, events, repos] = await Promise.all([
-        GitHubAPI.fetchUser(username),
-        GitHubAPI.fetchEvents(username, 100),
-        GitHubAPI.fetchAllRepos(username)
-      ]);
-      const last = GitHubAPI.deriveLastContribution(events);
-      const map = GitHubAPI.buildLastActivityMap(events);
-      if (last && lastEl) lastEl.textContent = `Last Activity: ${last.atFormatted}`;
-      if (Array.isArray(repos) && listEl) {
-        listEl.innerHTML = '';
-        repos.slice(0, 5).forEach(r => listEl.appendChild(GitHubAPI.buildRepoListItem(r, map, { newTab: false })));
-      }
-      // Profile chip enhancements
-      const chip = document.getElementById('open-gh-chip');
-      if (chip && user) {
-        const avatar = chip.querySelector('.avatar');
-        const handle = chip.querySelector('.handle');
-        if (avatar && user.avatar_url) avatar.src = user.avatar_url;
-        if (handle && user.login) handle.textContent = `@${user.login}`;
+      try {
+        // 1) Render cached data immediately if present
+        const cachedUser = localStorage.getItem('ghcache:user:' + username);
+        const cachedEvents = localStorage.getItem('ghcache:events:' + username + ':100');
+        const cachedRepos = localStorage.getItem('ghcache:repos:' + username);
+        if (cachedEvents || cachedRepos) {
+          try {
+            const evWrap = cachedEvents ? JSON.parse(cachedEvents) : null;
+            const rpWrap = cachedRepos ? JSON.parse(cachedRepos) : null;
+            const events = evWrap && evWrap.data || [];
+            const repos = rpWrap && rpWrap.data || [];
+            const last = GitHubAPI.deriveLastContribution(events);
+            const map = GitHubAPI.buildLastActivityMap(events);
+            if (last && lastEl) lastEl.textContent = `Last Activity: ${last.atFormatted}`;
+            if (Array.isArray(repos) && repos.length && listEl) {
+              listEl.innerHTML = '';
+              repos.slice(0, 5).forEach(r => listEl.appendChild(GitHubAPI.buildRepoListItem(r, map, { newTab: false })));
+            }
+          } catch (_) {}
+        }
+
+        // 2) Refresh network (uses cache-aware API functions)
+        const [user, events, repos] = await Promise.all([
+          GitHubAPI.fetchUser(username),
+          GitHubAPI.fetchEvents(username, 100),
+          GitHubAPI.fetchAllRepos(username)
+        ]);
+        const last = GitHubAPI.deriveLastContribution(events);
+        const map = GitHubAPI.buildLastActivityMap(events);
+        if (last && lastEl) lastEl.textContent = `Last Activity: ${last.atFormatted}`;
+        if (Array.isArray(repos) && listEl) {
+          listEl.innerHTML = '';
+          repos.slice(0, 5).forEach(r => listEl.appendChild(GitHubAPI.buildRepoListItem(r, map, { newTab: false })));
+        }
+        // Profile chip enhancements
+        const chip = document.getElementById('open-gh-chip');
+        if (chip && user) {
+          const avatar = chip.querySelector('.avatar');
+          const handle = chip.querySelector('.handle');
+          if (avatar && user.avatar_url) avatar.src = user.avatar_url;
+          if (handle && user.login) handle.textContent = `@${user.login}`;
+        }
+      } catch (err) {
+        if (lastEl) lastEl.textContent = 'Using cached GitHub data (API limited).';
+        if (listEl && !listEl.children.length) {
+          listEl.innerHTML = '';
+          const li = document.createElement('li');
+          li.textContent = 'Projects shown may be cached.';
+          listEl.appendChild(li);
+        }
+        console && console.warn && console.warn('GitHub populate failed', err);
       }
     }
     await populate();

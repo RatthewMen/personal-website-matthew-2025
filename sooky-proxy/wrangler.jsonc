@@ -1,0 +1,8 @@
+{
+  "name": "sooky-proxy",
+  "main": "worker.js",
+  "compatibility_date": "2025-11-07",
+  "observability": {
+    "enabled": false
+  }
+}
