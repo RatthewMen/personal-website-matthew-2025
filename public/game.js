@@ -37,6 +37,14 @@ let lastPanX = 0;
 const PLAYER_RADIUS = 0.45;
 const PLAYER_HEIGHT = 1.6;
 
+// Third-person orbit camera parameters (Fortnite-style)
+let camPitch = 0.2; // radians; 0 = horizontal, + tilts downward
+const ORBIT_YAW_SENSITIVITY = 0.0025;
+const ORBIT_PITCH_SENSITIVITY = 0.0020;
+const PITCH_MIN = 0.0;            // do not look upward above horizon
+const PITCH_MAX = Math.PI / 2;    // allow straight-down view
+let isRightMouseDown = false;
+
 if (typeof THREE === 'undefined') {
   showLibError();
 } else {
@@ -79,20 +87,30 @@ function init() {
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
   renderer.domElement.addEventListener('mousedown', (e) => {
+    if (e.button === 2) {
+      // RMB: engage orbit/pan
+      isRightMouseDown = true;
+      e.preventDefault();
+      return;
+    }
     if (e.button === 0) shoot();
-    if (e.button === 2) { isPanning = true; lastPanX = e.clientX; }
   });
   renderer.domElement.addEventListener('mousemove', (e) => {
-    // Only pan when right button is held
-    if (!isPanning) return;
-    const dx = e.clientX - lastPanX;
-    lastPanX = e.clientX;
-    camYaw -= dx * PAN_SENSITIVITY; // drag right rotates camera right
+    // Orbit only while RMB held; cursor always visible (no pointer lock)
+    if (!isRightMouseDown) return;
+    const dx = (typeof e.movementX === 'number') ? e.movementX : 0;
+    const dy = (typeof e.movementY === 'number') ? e.movementY : 0;
+    // Standard feel: move right -> rotate right; move up -> look up
+    camYaw -= dx * ORBIT_YAW_SENSITIVITY;
+    camPitch = THREE.MathUtils.clamp(camPitch + dy * ORBIT_PITCH_SENSITIVITY, PITCH_MIN, PITCH_MAX);
   });
   renderer.domElement.addEventListener('mouseup', (e) => {
-    if (e.button === 2) isPanning = false;
+    if (e.button === 2) {
+      isRightMouseDown = false;
+      // stay locked; nothing else to do
+    }
   });
-  renderer.domElement.addEventListener('mouseleave', () => { isPanning = false; });
+  renderer.domElement.addEventListener('mouseleave', () => {});
   renderer.domElement.addEventListener('contextmenu', (e) => e.preventDefault());
 }
 
@@ -298,9 +316,11 @@ function onWindowResize() {
 
 function onKeyDown(e) {
   keys[e.key.toLowerCase()] = true;
-  if (e.key === 'E' || e.key === 'e') tryPickup();
+  // Rebind pickup to Space
+  if (e.code === 'Space' || e.key === ' ') tryPickup();
   if (e.key === 'r' || e.key === 'R') resetGame();
-  if (e.key === ' ' && !overlayEl.classList.contains('hidden')) {
+  // Overlay continue now uses Enter to avoid conflict with Space pickup
+  if ((e.key === 'Enter' || e.code === 'Enter') && !overlayEl.classList.contains('hidden')) {
     overlayEl.classList.add('hidden');
   }
 }
@@ -450,40 +470,33 @@ function updatePlayer(dt) {
 
   // Face movement direction with smoothed yaw to prevent jitter
   if (player.velocity.lengthSq() > 0.001) {
-    const targetYaw = Math.atan2(player.velocity.x, player.velocity.z);
-    const t = 1 - Math.pow(TURN_SMOOTH_BASE, dt); // slower turning
+    // Rotate player to match camera facing while moving
+    const targetYaw = camYaw;
+    const t = 1 - Math.pow(TURN_SMOOTH_BASE, dt);
     playerBody.rotation.y = lerpAngle(playerBody.rotation.y, targetYaw, t);
   }
 }
 
 function updateChaseCamera(dt) {
-  const camHeight = 3.0;
   const camDistance = 6.0;
-  // Smoothly follow the player's facing direction (light auto-align)
-  const baseT = 1 - Math.pow(CAMERA_SMOOTH_BASE, dt);
-  const speedH = Math.hypot(player.velocity.x, player.velocity.z);
-  const isMoving = speedH > 0.02;
-  const followStrength = isMoving ? 0.25 : 0.0; // no auto-align when idle
-  camYaw = lerpAngle(camYaw, playerBody.rotation.y, baseT * followStrength);
   // Normalize camYaw to prevent numeric creep
   if (camYaw > Math.PI) camYaw -= Math.PI * 2;
   if (camYaw < -Math.PI) camYaw += Math.PI * 2;
-  const forward = new THREE.Vector3(Math.sin(camYaw), 0, Math.cos(camYaw));
-  const desired = playerBody.position.clone()
-    .addScaledVector(forward, -camDistance)
-    .add(new THREE.Vector3(0, camHeight, 0));
-
-  // Adaptive follow: if moving backwards relative to camera, increase follow rate
-  const velDot = player.velocity.x * forward.x + player.velocity.z * forward.z;
-  let followT = baseT;
-  if (velDot < -0.1) {
-    // Snap faster when backing up so camera stays in place
-    const fastBase = 0.05; // very snappy
-    followT = 1 - Math.pow(fastBase, dt);
-  }
-  camera.position.lerp(desired, followT);
-  const lookTarget = playerBody.position.clone().addScaledVector(forward, 1.5);
-  camera.lookAt(lookTarget);
+  // Direction from player toward where camera looks
+  // Build direction where the camera is looking.
+  // camPitch: 0 = horizontal; + tilts downward toward ground.
+  const dir = new THREE.Vector3(
+    Math.sin(camYaw) * Math.cos(camPitch),
+    -Math.sin(camPitch),
+    Math.cos(camYaw) * Math.cos(camPitch)
+  ).normalize();
+  const desired = playerBody.position.clone().sub(dir.clone().multiplyScalar(camDistance));
+  // Keep camera above ground (slight epsilon)
+  desired.y = Math.max(0.05, desired.y);
+  // Remove damping: snap camera directly to desired position
+  camera.position.copy(desired);
+  const focus = playerBody.position.clone().add(new THREE.Vector3(0, PLAYER_HEIGHT * 0.6, 0));
+  camera.lookAt(focus);
 }
 
 function updateProjectiles(dt) {
@@ -576,7 +589,9 @@ function updateProjectiles(dt) {
 }
 
 function showGoalOverlay() {
-  overlayEl.classList.remove('hidden');
+  // Disabled: no full-screen goal overlay
+  if (!overlayEl) return;
+  if (!overlayEl.classList.contains('hidden')) overlayEl.classList.add('hidden');
 }
 
 function randInRange(min, max) {

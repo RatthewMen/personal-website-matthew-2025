@@ -32,8 +32,8 @@
           </div>
           <div class="row small">
             <div class="pill">W/A/S/D: Move</div>
-            <div class="pill">Right Click + Drag: Pan camera</div>
-            <div class="pill">E: Pick up nearby disc</div>
+            <div class="pill">Right Click: Pan camera</div>
+            <div class="pill">Space: Pick up nearby disc</div>
             <div class="pill">Left Click: Shoot</div>
             <div class="pill">R: Reset</div>
           </div>
@@ -41,14 +41,14 @@
 
         <!-- Leaderboard visible only on Game tab, right side -->
         <div id="leaderboard" class="card">
-          <div class="lb-header">Leaderboard</div>
+          <div class="lb-header" id="lbHeaderLink">Leaderboard</div>
           <ol id="leaderboard-list"></ol>
         </div>
 
         <div id="overlay" class="hidden">
           <div class="modal">
             <h1>Goal!</h1>
-            <p>Nice shot. Press Space to continue.</p>
+            <p>Nice shot. Press Enter to continue.</p>
           </div>
         </div>
 
@@ -126,6 +126,18 @@
           </div>
         </div>
       </section>
+
+      <section id="leaderboard-tab" class="tab">
+        <div class="about-wrap">
+          <div class="row small" style="margin-bottom:10px">
+            <a href="#game" class="pill" id="back-to-game">← Back to Game</a>
+          </div>
+          <h1>Leaderboard</h1>
+          <p>Live best runs across all players.</p>
+          <h2 class="lb-subheader">All Runs</h2>
+          <ol id="leaderboard-full-list"></ol>
+        </div>
+      </section>
     </main>
 
     <script>
@@ -140,6 +152,8 @@
           const activeLink = document.querySelector(`[data-tab="${tab}"]`);
           if (activeLink) activeLink.classList.add('active');
         }
+        // Expose for external triggers (e.g., clicking sidebar Leaderboard)
+        window.activateTab = activate;
         links.forEach(l => l.addEventListener('click', e => {
           e.preventDefault();
           activate(l.getAttribute('data-tab'));
@@ -147,6 +161,67 @@
         // Initial activation based on hash, default to about
         const initial = (location.hash ? location.hash.slice(1) : 'about');
         activate(initial);
+        window.addEventListener('hashchange', () => {
+          const tab = (location.hash ? location.hash.slice(1) : 'about');
+          activate(tab);
+        });
+      })();
+    </script>
+
+    <script>
+      (function(){
+        // Make the small Leaderboard header open the full page
+        const header = document.getElementById('lbHeaderLink');
+        if (header) {
+          header.addEventListener('click', () => {
+            if (window.activateTab) window.activateTab('leaderboard');
+            location.hash = '#leaderboard';
+          });
+        }
+
+        const backBtn = document.getElementById('back-to-game');
+        if (backBtn) {
+          backBtn.addEventListener('click', () => {
+            if (window.activateTab) window.activateTab('game');
+          });
+        }
+
+        function renderFullLeaderboard(){
+          const list = document.getElementById('leaderboard-full-list');
+          if (!list || !window.Leaderboard) return;
+          const getAll = window.Leaderboard.getAllRows ? window.Leaderboard.getAllRows : () => [];
+          const fmt = window.Leaderboard.formatMs ? window.Leaderboard.formatMs : (x => `${x} ms`);
+          const rows = getAll();
+          list.innerHTML = '';
+          if (!Array.isArray(rows) || rows.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = 'Loading leaderboard…';
+            list.appendChild(li);
+            return;
+          }
+          // Render up to first 100 runs for readability
+          rows.slice(0, 100).forEach((row, idx) => {
+            const li = document.createElement('li');
+            li.textContent = `${idx + 1}. ${row.username} — ${fmt(row.timeMs)}`;
+            list.appendChild(li);
+          });
+        }
+
+        // Refresh when top list changes (acts as a live update signal)
+        const trySubscribe = () => {
+          if (window.Leaderboard && typeof window.Leaderboard.subscribeTop === 'function') {
+            window.Leaderboard.subscribeTop(() => { renderFullLeaderboard(); });
+          } else {
+            setTimeout(trySubscribe, 300);
+          }
+        };
+        trySubscribe();
+
+        // Periodically refresh while on the leaderboard tab
+        setInterval(() => {
+          const sec = document.getElementById('leaderboard-tab');
+          if (sec && sec.classList.contains('active')) renderFullLeaderboard();
+        }, 3000);
       })();
     </script>
 
