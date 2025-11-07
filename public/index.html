@@ -124,6 +124,14 @@
                 </a>
               </div>
             </div>
+            <div class="about-card discord-card" id="discord-card">
+              <h2>Discord</h2>
+              <img id="dc-lanyard" class="dc-lanyard-img" alt="Discord Presence" />
+              <p class="mono" style="margin-top:6px;font-size:12px;color:#9fb5d4">
+                Powered by
+                <a href="https://github.com/cnrad/lanyard-profile-readme" target="_blank" rel="noopener noreferrer">Lanyard Profile Readme</a>
+              </p>
+            </div>
             <div class="about-card">
               <h2>Contact</h2>
               <p>Email: <span class="mono">goofygoober6769420@gmail.com</span></p>
@@ -217,6 +225,30 @@
         window.addEventListener('hashchange', () => {
           const tab = (location.hash ? location.hash.slice(1) : 'about');
           activate(tab);
+        });
+      })();
+    </script>
+
+    <script>
+      window.DISCORD_USER_ID = "713601534264344639";
+    </script>
+
+    <script>
+      (function(){
+        // Discord panel using Lanyard profile image only
+        document.addEventListener('DOMContentLoaded', () => {
+          const img = document.getElementById('dc-lanyard');
+          const id = (window.DISCORD_USER_ID || '').toString().trim();
+          if (!img || !id) return;
+          const params = new URLSearchParams({
+            theme: 'dark',
+            borderRadius: '10px',
+            showDisplayName: 'true',
+            animated: 'true',
+            animatedDecoration: 'true'
+          });
+          img.src = `https://lanyard.cnrad.dev/api/${encodeURIComponent(id)}?${params.toString()}`;
+          img.alt = 'Discord Presence';
         });
       })();
     </script>
