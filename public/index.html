@@ -16,6 +16,7 @@
           <a href="#about" data-tab="about" class="nav-link active">About</a>
           <a href="#game" data-tab="game" class="nav-link">Game</a>
           <a href="#style" data-tab="style" class="nav-link">Style Guide</a>
+          <a href="#widgets" data-tab="widgets" class="nav-link">Widgets</a>
         </nav>
       </div>
     </header>
@@ -137,6 +138,413 @@
               <p>Email: <span class="mono">goofygoober6769420@gmail.com</span></p>
               <div class="row small" style="margin-top:8px">
                 <a class="pill" href="https://github.com/RatthewMen" target="_blank" rel="noopener noreferrer">GitHub Profile →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="widgets-tab" class="tab">
+        <div class="style-wrap">
+          <h1>Google Sheets / Excel Equations Basics Learning Guide</h1>
+          <p>Quick, practical lessons to level up your Google Sheets / Excel skills!</p>
+
+          <div class="widgets-grid">
+            <div class="about-card">
+              <h3>Basics: References & Arithmetic</h3>
+              <p>Use cell references and operators to compute values.</p>
+              
+
+
+              <ul class="trainer-steps" style="margin-top:6px">
+                <li><strong>Cell references</strong>: Link formulas to live data so results update automatically when inputs change.<br><span class="mono">=A1 + B1</span></li>
+                <li><strong>Multiply by a number</strong>: Apply rates like tax, discounts, or exchange rates without editing every value.<br><span class="mono">=A1 * 1.08</span></li>
+                <li><strong>Absolute reference</strong>: Anchor a cell so it won’t shift when you copy or drag the formula across rows/columns.<br><span class="mono">=$A$1</span><br>Variants: <span class="mono">$A1</span> locks the column only (column A stays fixed as you drag across), <span class="mono">A$1</span> locks the row only (row 1 stays fixed as you fill down), and <span class="mono">$A$1</span> locks both.</li>
+              </ul>
+            </div>
+            <div class="about-card">
+              <div class="widgets-trainer" id="basics-trainer">
+                <h3>Practice: Add Two Cells</h3>
+                <div class="trainer-task" id="basics-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-basics">Reset</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-A1" data-ref="A1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-B1" data-ref="B1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-C1" data-ref="C1" type="number"></div>
+                  <div class="sheet-c" id="cellbox-D1"><input class="sheet-input" id="cell-D1" data-ref="D1" type="text" placeholder="="></div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-A2" data-ref="A2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-B2" data-ref="B2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-C2" data-ref="C2" type="number"></div>
+                  <div class="sheet-c"></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-A3" data-ref="A3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-B3" data-ref="B3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cell-C3" data-ref="C3" type="number"></div>
+                  <div class="sheet-c"></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-basics">Check</div>
+                  <div class="pill" id="toggle-basics-hint">Show hint</div>
+                </div>
+                <div class="hint" id="basics-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="basics-steps">
+                      <li id="step-1">In cell D1, press equals (=) to start the formula.</li>
+                      <li id="step-2">Then click the first cell to add it to the formula.</li>
+                      <li id="step-3">Type + to add.</li>
+                      <li id="step-4">Click the second cell to add it.</li>
+                      <li id="step-5">Press Enter or hit Check to confirm.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="basics-status" class="trainer-status"></div>
+              </div>
+            </div>
+            <div class="about-card">
+              <h3>Practice: Multiply by a Number</h3>
+              <p>Write a formula that multiplies a random cell by a given number.</p>
+              <div class="widgets-trainer" id="multiply-trainer">
+                <div class="trainer-task" id="multiply-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-multiply">Reset</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet - multiply">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-A1" data-ref="A1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-B1" data-ref="B1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-C1" data-ref="C1" type="number"></div>
+                  <div class="sheet-c" id="mul-cellbox-D1"><input class="sheet-input" id="mul-cell-D1" data-ref="D1" type="text" placeholder="="></div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-A2" data-ref="A2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-B2" data-ref="B2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-C2" data-ref="C2" type="number"></div>
+                  <div class="sheet-c"></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-A3" data-ref="A3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-B3" data-ref="B3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="mul-cell-C3" data-ref="C3" type="number"></div>
+                  <div class="sheet-c"></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-multiply">Check</div>
+                  <div class="pill" id="toggle-multiply-hint">Show hint</div>
+                </div>
+                <div class="hint" id="multiply-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="multiply-steps">
+                      <li id="mul-step-1">In cell D1, press equals (=) to start the formula.</li>
+                      <li id="mul-step-2">Click the target cell to insert it.</li>
+                      <li id="mul-step-3">Type * (asterisk) to multiply.</li>
+                      <li id="mul-step-4">Type the given number (e.g., 2 or 1.08).</li>
+                      <li id="mul-step-5">Press Enter or hit Check.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="multiply-status" class="trainer-status"></div>
+              </div>
+            </div>
+            <div class="about-card">
+              <h3>Practice: Absolute References ($)</h3>
+              <p>Use an absolute reference (with $) to anchor a cell in your formula.</p>
+              <p class="mono" style="font-size:12px;color:#9fb5d4;margin-top:4px">Tip: Use the small green square on D1 to drag down and fill D2/D3 like a real sheet.</p>
+              <div class="widgets-trainer" id="absref-trainer">
+                <div class="trainer-task" id="absref-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-absref">Reset</div>
+                  <div class="pill" id="fill-absref">Fill Down</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet - absolute reference">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-A1" data-ref="A1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-B1" data-ref="B1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-C1" data-ref="C1" type="number"></div>
+                  <div class="sheet-c" id="abs-cellbox-D1">
+                    <input class="sheet-input" id="abs-cell-D1" data-ref="D1" type="text" placeholder="=">
+                    <div class="fill-handle" id="abs-fill-handle" title="Drag to fill down"></div>
+                  </div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-A2" data-ref="A2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-B2" data-ref="B2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-C2" data-ref="C2" type="number"></div>
+                  <div class="sheet-c" id="abs-cellbox-D2"><div class="sheet-output" id="abs-out-D2"></div></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-A3" data-ref="A3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-B3" data-ref="B3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="abs-cell-C3" data-ref="C3" type="number"></div>
+                  <div class="sheet-c" id="abs-cellbox-D3"><div class="sheet-output" id="abs-out-D3"></div></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-absref">Check</div>
+                  <div class="pill" id="toggle-absref-hint">Show hint</div>
+                </div>
+                <div class="row small" id="absref-rowchecks" style="gap:6px">
+                  <span class="rowcheck" id="abscheck-1" title="Row 1">D1</span>
+                  <span class="rowcheck" id="abscheck-2" title="Row 2">D2</span>
+                  <span class="rowcheck" id="abscheck-3" title="Row 3">D3</span>
+                </div>
+                <div class="hint" id="absref-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="absref-steps">
+                      <li id="abs-step-1">In D1, start with =</li>
+                      <li id="abs-step-2">Click the changing cell to insert it (e.g., A2).</li>
+                      <li id="abs-step-3">Type * to multiply.</li>
+                      <li id="abs-step-4">Type the absolute ref exactly like $C$1 (add $ before column and row).</li>
+                      <li id="abs-step-5">Press Enter or hit Check.</li>
+                      <li id="abs-step-6">Use the green square in D1 to drag down and fill D2/D3 (or click Fill Down). Absolute refs stay fixed; relative parts update per row. For adding across columns, try =A1+B1 and drag right in a real sheet—$ anchors let you freeze one side if needed.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="absref-status" class="trainer-status"></div>
+              </div>
+            </div>
+
+            <div class="about-card">
+              <h3>Summaries: SUM, AVERAGE, MIN, MAX</h3>
+              <p>Aggregate values across ranges.</p>
+              <p class="mono" style="font-size:12px;color:#9fb5d4">Syntax: =SUM(range), =AVERAGE(range), =MIN(range), =MAX(range) — range can be A1:A3 or A1:C1</p>
+              <ul class="trainer-steps" style="margin-top:6px">
+                <li><strong>SUM</strong>: Total up a list or column of values (e.g., monthly sales, points).<br><span class="mono">=SUM(B2:B100)</span></li>
+                <li><strong>AVERAGE</strong>: Find the mean to smooth out spikes or dips.<br><span class="mono">=AVERAGE(C2:C100)</span></li>
+                <li><strong>MIN</strong>: Get the smallest value (useful for best times, lowest cost).<br><span class="mono">=MIN(D2:D100)</span></li>
+                <li><strong>MAX</strong>: Get the largest value (useful for high scores, peak traffic).<br><span class="mono">=MAX(D2:D100)</span></li>
+              </ul>
+            </div>
+            <div class="about-card">
+              <h3>Practice: Summaries (SUM / AVERAGE / MIN / MAX)</h3>
+              <p>Write the correct summary function for the given range in D1.</p>
+              <div class="widgets-trainer" id="summaries-trainer">
+                <div class="trainer-task" id="sum-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-sum">Reset</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet - summaries">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-A1" data-ref="A1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-B1" data-ref="B1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-C1" data-ref="C1" type="number"></div>
+                  <div class="sheet-c" id="sum-cellbox-D1"><input class="sheet-input" id="sum-cell-D1" data-ref="D1" type="text" placeholder="="></div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-A2" data-ref="A2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-B2" data-ref="B2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-C2" data-ref="C2" type="number"></div>
+                  <div class="sheet-c"></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-A3" data-ref="A3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-B3" data-ref="B3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="sum-cell-C3" data-ref="C3" type="number"></div>
+                  <div class="sheet-c"></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-sum">Check</div>
+                  <div class="pill" id="toggle-sum-hint">Show hint</div>
+                </div>
+                <div class="hint" id="sum-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="sum-steps">
+                      <li id="sum-step-1">In D1, press = to start your formula.</li>
+                      <li id="sum-step-2">Type the function name (SUM, AVERAGE, MIN, or MAX).</li>
+                      <li id="sum-step-3">Type an opening parenthesis, then the range (e.g., A1:A3).</li>
+                      <li id="sum-step-4">Type a closing parenthesis and press Enter or hit Check.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="sum-status" class="trainer-status"></div>
+              </div>
+            </div>
+
+            <div class="about-card">
+              <h3>Counting: COUNT & COUNTIF</h3>
+              <p>Count numbers or matches to a criterion.</p>
+              <p class="mono" style="font-size:12px;color:#9fb5d4">Syntax: =COUNT(range), =COUNTIF(range, criterion) — range can be A1:A3 or A1:C1</p>
+              <ul class="trainer-steps" style="margin-top:6px">
+                <li><strong>COUNT</strong>: Counts numeric cells only (ignores blanks/text).<br><span class="mono">=COUNT(B2:B100)</span></li>
+                <li><strong>COUNTIF</strong>: Counts cells that match a condition (numbers or text).<br><span class="mono">=COUNTIF(B2:B100, "&gt;10")</span><br><span class="mono">=COUNTIF(A2:A100, "Yes")</span></li>
+              </ul>
+            </div>
+            <div class="about-card">
+              <h3>Practice: Counting (COUNT / COUNTIF)</h3>
+              <p>Write the correct counting function for the given range in D1.</p>
+              <div class="widgets-trainer" id="counting-trainer">
+                <div class="trainer-task" id="count-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-count">Reset</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet - counting">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-A1" data-ref="A1" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-B1" data-ref="B1" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-C1" data-ref="C1" type="text"></div>
+                  <div class="sheet-c" id="cnt-cellbox-D1"><input class="sheet-input" id="cnt-cell-D1" data-ref="D1" type="text" placeholder="="></div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-A2" data-ref="A2" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-B2" data-ref="B2" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-C2" data-ref="C2" type="text"></div>
+                  <div class="sheet-c"></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-A3" data-ref="A3" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-B3" data-ref="B3" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="cnt-cell-C3" data-ref="C3" type="text"></div>
+                  <div class="sheet-c"></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-count">Check</div>
+                  <div class="pill" id="toggle-count-hint">Show hint</div>
+                </div>
+                <div class="hint" id="count-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="count-steps">
+                      <li id="count-step-1">In D1, press = to start your formula.</li>
+                      <li id="count-step-2">Type the function name (COUNT or COUNTIF).</li>
+                      <li id="count-step-3">For COUNTIF, add a comma and a criterion like ">=10" or "Yes".</li>
+                      <li id="count-step-4">Close with ) and press Enter or hit Check.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="count-status" class="trainer-status"></div>
+              </div>
+            </div>
+
+            <div class="about-card">
+              <h3>Logic: IF, IFS, AND, OR</h3>
+              <p>Branch based on conditions.</p>
+              <p class="mono" style="font-size:12px;color:#9fb5d4">Syntax: =IF(test, value_if_true, value_if_false) • =IFS(test1, value1, test2, value2, …) • =AND(test1, test2, …) • =OR(test1, test2, …)</p>
+              <ul class="trainer-steps" style="margin-top:6px">
+                <li><strong>IF</strong>: Choose between two outcomes based on a test.<br><span class="mono">=IF(B2>=60, "Pass", "Fail")</span></li>
+                <li><strong>IFS</strong>: Multiple ordered tests without nesting many IFs.<br><span class="mono">=IFS(B2>=90,"A", B2>=80,"B", B2>=70,"C", TRUE,"D")</span></li>
+                <li><strong>AND / OR</strong>: Combine conditions in one test.<br><span class="mono">=IF(AND(B2>=60, C2="Yes"), "OK", "Check")</span></li>
+              </ul>
+            </div>
+            <div class="about-card">
+              <h3>Practice: Logic (IF / IFS)</h3>
+              <p>Write the correct IF or IFS formula in D1 for the task.</p>
+              <div class="widgets-trainer" id="ififs-trainer">
+                <div class="trainer-task" id="ififs-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-ififs">Reset</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet - IF / IFS">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-A1" data-ref="A1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-B1" data-ref="B1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-C1" data-ref="C1" type="text"></div>
+                  <div class="sheet-c" id="if-cellbox-D1"><input class="sheet-input" id="if-cell-D1" data-ref="D1" type="text" placeholder="="></div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-A2" data-ref="A2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-B2" data-ref="B2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-C2" data-ref="C2" type="text"></div>
+                  <div class="sheet-c"></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-A3" data-ref="A3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-B3" data-ref="B3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="if-cell-C3" data-ref="C3" type="text"></div>
+                  <div class="sheet-c"></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-ififs">Check</div>
+                  <div class="pill" id="toggle-ififs-hint">Show hint</div>
+                </div>
+                <div class="hint" id="ififs-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="ififs-steps">
+                      <li>In D1, press = to start your formula.</li>
+                      <li>Type IF or IFS to match the task.</li>
+                      <li>Build the test(s) using the provided cells and thresholds.</li>
+                      <li>Type the outputs in quotes, separated by commas.</li>
+                      <li>Close with ) and press Enter or hit Check.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="ififs-status" class="trainer-status"></div>
+              </div>
+            </div>
+            <div class="about-card">
+              <h3>Practice: Logic (AND / OR)</h3>
+              <p>Use AND or OR inside IF to return the correct result in D1.</p>
+              <div class="widgets-trainer" id="logic-trainer">
+                <div class="trainer-task" id="logic-task"></div>
+                <div class="trainer-bar">
+                  <div class="pill" id="reset-logic">Reset</div>
+                </div>
+                <div class="sheet-grid" aria-label="Fake spreadsheet - AND / OR">
+                  <div class="sheet-h corner"></div>
+                  <div class="sheet-h">A</div>
+                  <div class="sheet-h">B</div>
+                  <div class="sheet-h">C</div>
+                  <div class="sheet-h">D</div>
+                  <div class="sheet-h">1</div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-A1" data-ref="A1" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-B1" data-ref="B1" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-C1" data-ref="C1" type="number"></div>
+                  <div class="sheet-c" id="lg-cellbox-D1"><input class="sheet-input" id="lg-cell-D1" data-ref="D1" type="text" placeholder="="></div>
+                  <div class="sheet-h">2</div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-A2" data-ref="A2" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-B2" data-ref="B2" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-C2" data-ref="C2" type="number"></div>
+                  <div class="sheet-c"></div>
+                  <div class="sheet-h">3</div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-A3" data-ref="A3" type="number"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-B3" data-ref="B3" type="text"></div>
+                  <div class="sheet-c"><input class="sheet-input" id="lg-cell-C3" data-ref="C3" type="number"></div>
+                  <div class="sheet-c"></div>
+                </div>
+                <div class="row small" style="margin-top:6px">
+                  <div class="pill" id="check-logic">Check</div>
+                  <div class="pill" id="toggle-logic-hint">Show hint</div>
+                </div>
+                <div class="hint" id="logic-hintbox">
+                  <div class="hint-body">
+                    <ul class="trainer-steps" id="logic-steps">
+                      <li>In D1, press = to start your formula.</li>
+                      <li>Type IF, then AND(...) or OR(...) with the given tests.</li>
+                      <li>Provide the outputs in quotes, e.g., "OK" and "No".</li>
+                      <li>Close with ) and press Enter or hit Check.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="logic-status" class="trainer-status"></div>
+              </div>
+            </div>
+
+            <div class="about-card">
+              <h3>Learn More</h3>
+              <p>Ready to try these in a real spreadsheet?</p>
+              <div class="row small" style="margin-top:8px">
+                <a class="pill" href="https://docs.google.com/spreadsheets/u/0/" target="_blank" rel="noopener noreferrer">Open Google Sheets Editor →</a>
+                <a class="pill" href="https://support.google.com/docs/table/25273" target="_blank" rel="noopener noreferrer">Google Sheets Function Help →</a>
               </div>
             </div>
           </div>
@@ -435,6 +843,1300 @@
     <script>window.USE_REALTIME_DB = true; // force RTDB for leaderboard</script>
     <script type="module" src="leaderboard.js"></script>
     <script src="github.js"></script>
+    <script>
+      (function(){
+        // Widgets: initialize Google Sheet embed
+        // Set window.GOOGLE_SHEETS_EMBED_URL to override the default.
+        // Recommended format (published): https://docs.google.com/spreadsheets/d/{ID}/preview
+        // or: https://docs.google.com/spreadsheets/d/e/{PUB_ID}/pubhtml?widget=true&headers=false
+        const DEFAULT_EMBED = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview';
+        const embedUrl = (window.GOOGLE_SHEETS_EMBED_URL || DEFAULT_EMBED);
+        const iframe = document.getElementById('practice-sheet');
+        const openLink = document.getElementById('open-practice-sheet');
+        if (iframe) iframe.src = embedUrl;
+        if (openLink) openLink.href = embedUrl.replace('/preview', '/edit');
+      })();
+    </script>
+    <script>
+      (function(){
+        // Basics trainer: fake spreadsheet with guided steps, random task, checker
+        const refs = ['A1','B1','C1','D1','A2','B2','C2','A3','B3','C3'];
+        const numberRefs = refs.filter(r => !/^D/.test(r));
+        const inputsByRef = Object.fromEntries(refs.map(r => [r, document.getElementById('cell-' + r)]));
+        const d1 = inputsByRef['D1'];
+        const d1Box = document.getElementById('cellbox-D1');
+        const checkBtn = document.getElementById('check-basics');
+        const resetBtn = document.getElementById('reset-basics');
+        const statusEl = document.getElementById('basics-status');
+        const taskEl = document.getElementById('basics-task');
+        const toggleHintBtn = document.getElementById('toggle-basics-hint');
+        const hintBox = document.getElementById('basics-hintbox');
+        const steps = {
+          s1: document.getElementById('step-1'),
+          s2: document.getElementById('step-2'),
+          s3: document.getElementById('step-3'),
+          s4: document.getElementById('step-4'),
+          s5: document.getElementById('step-5')
+        };
+
+        if (!d1) return;
+
+        let target1 = 'A1';
+        let target2 = 'B1';
+
+        function getNumbers() {
+          const vals = {};
+          numberRefs.forEach(r => {
+            const v = parseFloat(inputsByRef[r].value);
+            vals[r] = isFinite(v) ? v : 0;
+          });
+          return {
+            vals
+          };
+        }
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+        function pickTargets() {
+          // pick two distinct refs excluding C1
+          const pool = numberRefs.slice();
+          const i1 = randomInt(0, pool.length - 1);
+          const r1 = pool.splice(i1, 1)[0];
+          const r2 = pool[randomInt(0, pool.length - 1)];
+          target1 = r1;
+          target2 = r2;
+          if (taskEl) {
+            taskEl.textContent = `Task: In D1, add ${target1} + ${target2} and press Enter.`;
+          }
+          // Update hint steps to mention "first" and "second" cells
+          if (steps.s2) steps.s2.textContent = `Then click ${target1} to add it to the formula.`;
+          if (steps.s4) steps.s4.textContent = `Click ${target2} to add it.`;
+        }
+
+        function populateRandomData() {
+          numberRefs.forEach(r => {
+            // Keep small numbers to make mental math easy
+            inputsByRef[r].value = String(randomInt(1, 9));
+          });
+          d1.value = '';
+          setValueMode(false);
+        }
+
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+
+        function wantsCellInsert() {
+          const v = (d1.value || '').trim();
+          return document.activeElement === d1 && v.startsWith('=');
+        }
+
+        function updateSteps(passed) {
+          const v = (d1.value || '').toUpperCase();
+          const s1 = v.trim().startsWith('=');
+          const hasFirst = s1 && new RegExp(`\\b${target1}\\b`).test(v);
+          const s3 = hasFirst && /\+/.test(v);
+          const hasSecond = s3 && new RegExp(`\\b${target2}\\b`).test(v);
+          steps.s1.classList.toggle('done', s1);
+          steps.s2.classList.toggle('done', hasFirst);
+          steps.s3.classList.toggle('done', s3);
+          steps.s4.classList.toggle('done', hasSecond);
+          steps.s5.classList.toggle('done', !!passed);
+        }
+
+        function normalizeFormula(text) {
+          return (text || '').replace(/\s+/g, '').toUpperCase();
+        }
+
+        function isCorrectFormula(text) {
+          const n = normalizeFormula(text);
+          const p1 = `=${target1}+${target2}`;
+          const p2 = `=${target2}+${target1}`;
+          const s1 = `=SUM(${target1},${target2})`;
+          const s2 = `=SUM(${target2},${target1})`;
+          return n === p1 || n === p2 || n === s1 || n === s2;
+        }
+
+        function expectedSum() {
+          const { vals } = getNumbers();
+          return (vals[target1] ?? 0) + (vals[target2] ?? 0);
+        }
+
+        function setValueMode(on) {
+          if (!d1Box) return;
+          if (on) d1Box.classList.add('value-mode');
+          else d1Box.classList.remove('value-mode');
+        }
+
+        function checkNow() {
+          const f = d1.value || '';
+          if (!f.trim().startsWith('=')) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = 'Start with "=" in D1, then click the two cells and type "+".';
+            updateSteps(false);
+            return false;
+          }
+          if (isCorrectFormula(f)) {
+            const sum = expectedSum();
+            // Show computed value like a real sheet
+            d1.value = String(sum);
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅  D1 = ${target1} + ${target2} = ${sum}`;
+            updateSteps(true);
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Not quite. Try: =${target1} + ${target2}  (click ${target1}, type +, click ${target2}, Enter).`;
+            updateSteps(false);
+            return false;
+          }
+        }
+
+        function resetAll() {
+          populateRandomData();
+          statusEl.className = 'trainer-status';
+          statusEl.textContent = '';
+          updateSteps(false);
+          d1.focus();
+        }
+
+        // Clicking A1 or B1 while editing C1 inserts the reference instead of focusing the number field
+        function setupCellInsert(el, ref) {
+          el.addEventListener('mousedown', (e) => {
+            if (wantsCellInsert()) {
+              e.preventDefault();
+              insertAtCursor(d1, ref);
+              updateSteps(false);
+            }
+          });
+          // Also allow a11y keyboard insertion when focused on number fields
+          el.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) {
+              e.preventDefault();
+              insertAtCursor(d1, ref);
+              updateSteps(false);
+            }
+          });
+        }
+
+        numberRefs.forEach(r => setupCellInsert(inputsByRef[r], r));
+
+        d1.addEventListener('input', () => {
+          updateSteps(false);
+          // If user types "=" after showing value, switch back to formula editing mode
+          if (d1.value.startsWith('=')) setValueMode(false);
+        });
+        d1.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            checkNow();
+          }
+        });
+        numberRefs.forEach(r => {
+          inputsByRef[r].addEventListener('input', () => {
+            if (isCorrectFormula(d1.value)) checkNow();
+          });
+        });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', resetAll);
+        if (toggleHintBtn) toggleHintBtn.addEventListener('click', () => {
+          hintBox.classList.toggle('open');
+          toggleHintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint';
+        });
+
+        // Initialize
+        populateRandomData();
+        pickTargets();
+        updateSteps(false);
+      })();
+    </script>
+    <script>
+      (function(){
+        // Multiply-by-number trainer
+        const root = document.getElementById('multiply-trainer');
+        if (!root) return;
+        const refs = ['A1','B1','C1','A2','B2','C2','A3','B3','C3'];
+        const inputsByRef = {};
+        refs.forEach(r => { inputsByRef[r] = root.querySelector(`input[data-ref="${r}"]`); });
+        const d1 = root.querySelector('#mul-cell-D1');
+        const d1Box = root.querySelector('#mul-cellbox-D1');
+        const statusEl = document.getElementById('multiply-status');
+        const taskEl = document.getElementById('multiply-task');
+        const checkBtn = document.getElementById('check-multiply');
+        const resetBtn = document.getElementById('reset-multiply');
+        const hintBtn = document.getElementById('toggle-multiply-hint');
+        const hintBox = document.getElementById('multiply-hintbox');
+
+        const multipliers = [2, 3, 5, 10, 0.5, 1.08, 1.25];
+        let targetRef = 'A1';
+        let targetConst = 2;
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
+
+        function populateRandomData() {
+          refs.forEach(r => { inputsByRef[r].value = String(randomInt(1, 9)); });
+          d1.value = '';
+          setValueMode(false);
+        }
+        function pickTask() {
+          targetRef = randomChoice(refs);
+          targetConst = randomChoice(multipliers);
+          if (taskEl) taskEl.textContent = `Task: In D1, multiply ${targetRef} by ${targetConst}.`;
+        }
+        function setValueMode(on) {
+          if (!d1Box) return;
+          if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode');
+        }
+        function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
+        function parseNumberLiteral(str) {
+          // Accept 1, 1.0, 1.080, .5
+          const m = str.match(/^(\d+(\.\d+)?|\.\d+)$/);
+          if (!m) return null;
+          return Number(str);
+        }
+        function parseMultiplyFormula(text) {
+          const n = normalizeFormula(text);
+          if (!n.startsWith('=')) return null;
+          const body = n.slice(1);
+          // REF*NUM or NUM*REF
+          const star = body.split('*');
+          if (star.length === 2) {
+            const [a, b] = star;
+            const aNum = parseNumberLiteral(a);
+            const bNum = parseNumberLiteral(b);
+            if (aNum != null && refs.includes(b)) return { ref: b, constant: aNum };
+            if (bNum != null && refs.includes(a)) return { ref: a, constant: bNum };
+          }
+          // PRODUCT(REF,NUM) or PRODUCT(NUM,REF)
+          const m = body.match(/^PRODUCT\((.+),(.+)\)$/);
+          if (m) {
+            const a = m[1], b = m[2];
+            const aNum = parseNumberLiteral(a);
+            const bNum = parseNumberLiteral(b);
+            if (aNum != null && refs.includes(b)) return { ref: b, constant: aNum };
+            if (bNum != null && refs.includes(a)) return { ref: a, constant: bNum };
+          }
+          return null;
+        }
+        function expectedValue() {
+          const val = Number(inputsByRef[targetRef].value) || 0;
+          return val * targetConst;
+        }
+        function updateSteps() {
+          // keep steps simple; highlight only via status for this trainer
+        }
+        function checkNow() {
+          const f = d1.value || '';
+          const parsed = parseMultiplyFormula(f);
+          if (!parsed) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = 'Start with = and multiply the target cell by the number (e.g., =A1*2).';
+            return false;
+          }
+          const refOk = parsed.ref === targetRef;
+          const constOk = Math.abs(parsed.constant - targetConst) < 1e-9;
+          if (refOk && constOk) {
+            const val = expectedValue();
+            d1.value = String(val);
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅  D1 = ${targetRef} * ${targetConst} = ${val}`;
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Not quite. Multiply ${targetRef} by ${targetConst} (e.g., =${targetRef}*${targetConst}).`;
+            return false;
+          }
+        }
+        function wantsCellInsert() {
+          const v = (d1.value || '').trim();
+          return document.activeElement === d1 && v.startsWith('=');
+        }
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+        function setupCellInsert(el, ref) {
+          el.addEventListener('mousedown', (e) => {
+            if (wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); }
+          });
+          el.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); }
+          });
+        }
+        refs.forEach(r => setupCellInsert(inputsByRef[r], r));
+        d1.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkNow(); } });
+        refs.forEach(r => { inputsByRef[r].addEventListener('input', () => { if (normalizeFormula(d1.value).startsWith('=')) setValueMode(false); }); });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', () => { populateRandomData(); pickTask(); statusEl.className = 'trainer-status'; statusEl.textContent = ''; d1.focus(); });
+        if (hintBtn) hintBtn.addEventListener('click', () => { hintBox.classList.toggle('open'); hintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint'; });
+        // init
+        populateRandomData(); pickTask();
+      })();
+    </script>
+    <script>
+      (function(){
+        // Summaries trainer (SUM / AVERAGE / MIN / MAX) on a single grid, D1 formula
+        const root = document.getElementById('summaries-trainer');
+        if (!root) return;
+        const refs = ['A1','B1','C1','A2','B2','C2','A3','B3','C3'];
+        const inputsByRef = {};
+        refs.forEach(r => { inputsByRef[r] = root.querySelector(`input[data-ref="${r}"]`); });
+        const d1 = root.querySelector('#sum-cell-D1');
+        const d1Box = root.querySelector('#sum-cellbox-D1');
+        const statusEl = document.getElementById('sum-status');
+        const taskEl = document.getElementById('sum-task');
+        const checkBtn = document.getElementById('check-sum');
+        const resetBtn = document.getElementById('reset-sum');
+        const hintBtn = document.getElementById('toggle-sum-hint');
+        const hintBox = document.getElementById('sum-hintbox');
+
+        const FUNCS = ['SUM','AVERAGE','MIN','MAX'];
+        let func = 'SUM';
+        let rangeStart = 'A1';
+        let rangeEnd = 'A3'; // default vertical
+        let selStart = null;
+        let selEnd = null;
+        let isSelecting = false;
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
+
+        function populateRandomData() {
+          refs.forEach(r => { inputsByRef[r].value = String(randomInt(1, 20)); });
+          d1.value = '';
+          setValueMode(false);
+        }
+        function pickTask() {
+          func = randomChoice(FUNCS);
+          // Random orientation: vertical (A1:A3) or horizontal (A1:C1)
+          const vertical = Math.random() < 0.5;
+          if (vertical) { rangeStart = 'A1'; rangeEnd = 'A3'; }
+          else { rangeStart = 'A1'; rangeEnd = 'C1'; }
+          if (taskEl) taskEl.textContent = `Task: In D1, compute ${func} over ${rangeStart}:${rangeEnd}.`;
+        }
+        function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
+        function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
+        function refToParts(ref) {
+          const m = ref.match(/^([A-Z]+)(\d+)$/);
+          if (!m) return null;
+          return { col: m[1], row: Number(m[2]) };
+        }
+        function colToIndex(col) { return col.charCodeAt(0) - 'A'.charCodeAt(0); }
+        function indexToCol(idx) { return String.fromCharCode('A'.charCodeAt(0) + idx); }
+        function partsToRef(parts) { return `${parts.col}${parts.row}`; }
+        function rectRange(aRef, bRef) {
+          const a = refToParts(aRef), b = refToParts(bRef);
+          if (!a || !b) return [aRef];
+          const c1 = Math.min(colToIndex(a.col), colToIndex(b.col));
+          const c2 = Math.max(colToIndex(a.col), colToIndex(b.col));
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          const start = { col: indexToCol(c1), row: r1 };
+          const end = { col: indexToCol(c2), row: r2 };
+          return [partsToRef(start), partsToRef(end)];
+        }
+        function clearSelection() {
+          selStart = null; selEnd = null;
+          refs.forEach(r => {
+            const el = inputsByRef[r]?.closest('.sheet-c');
+            if (el) el.classList.remove('selected');
+          });
+        }
+        function applySelection(aRef, bRef) {
+          refs.forEach(r => {
+            const el = inputsByRef[r]?.closest('.sheet-c');
+            if (!el) return;
+            el.classList.remove('selected');
+          });
+          const a = refToParts(aRef), b = refToParts(bRef);
+          if (!a || !b) return;
+          const c1 = Math.min(colToIndex(a.col), colToIndex(b.col));
+          const c2 = Math.max(colToIndex(a.col), colToIndex(b.col));
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          for (let ci = c1; ci <= c2; ci++) {
+            for (let ri = r1; ri <= r2; ri++) {
+              const ref = `${indexToCol(ci)}${ri}`;
+              const el = inputsByRef[ref]?.closest('.sheet-c');
+              if (el) el.classList.add('selected');
+            }
+          }
+        }
+        function currentSelectionRange() {
+          if (!selStart || !selEnd) return null;
+          const [s, e] = rectRange(selStart, selEnd);
+          return `${s}:${e}`;
+        }
+        function parseRangeCells(start, end) {
+          // returns array of refs in the rectangular range (only our two simple cases)
+          const cols = ['A','B','C'];
+          if (start === 'A1' && end === 'A3') return ['A1','A2','A3'];
+          if (start === 'A1' && end === 'C1') return ['A1','B1','C1'];
+          // fallback to just start
+          return [start];
+        }
+        function computeExpected() {
+          const refsInRange = parseRangeCells(rangeStart, rangeEnd);
+          const nums = refsInRange.map(r => Number(inputsByRef[r].value) || 0);
+          switch (func) {
+            case 'SUM': return nums.reduce((a,b)=>a+b,0);
+            case 'AVERAGE': return nums.length ? nums.reduce((a,b)=>a+b,0) / nums.length : 0;
+            case 'MIN': return nums.length ? Math.min(...nums) : 0;
+            case 'MAX': return nums.length ? Math.max(...nums) : 0;
+          }
+          return 0;
+        }
+        function isCorrectFormula(text) {
+          const n = normalizeFormula(text);
+          const expected = `=${func}(${rangeStart}:${rangeEnd})`;
+          return n === expected;
+        }
+        function checkNow() {
+          const f = d1.value || '';
+          if (!f.trim().startsWith('=')) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Start with "=" in D1, then type ${func}(${rangeStart}:${rangeEnd}).`;
+            return false;
+          }
+          if (isCorrectFormula(f)) {
+            const val = computeExpected();
+            d1.value = String(val);
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅  D1 = ${func}(${rangeStart}:${rangeEnd}) = ${val}`;
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Not quite. Try: =${func}(${rangeStart}:${rangeEnd})`;
+            return false;
+          }
+        }
+        function wantsCellInsert() {
+          const v = (d1.value || '').trim();
+          return document.activeElement === d1 && v.startsWith('=');
+        }
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+        function setupCellInsert(el, ref) {
+          // For summaries, avoid mousedown insertion to allow drag selection.
+          el.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) {
+              e.preventDefault();
+              insertAtCursor(d1, ref);
+            }
+          });
+        }
+        refs.forEach(r => { const el = inputsByRef[r]; if (el) setupCellInsert(el, r); });
+        // Range highlight + drag selection
+        refs.forEach(r => {
+          const el = inputsByRef[r];
+          if (!el) return;
+          el.addEventListener('mousedown', (e) => {
+            // Only start selection when actively editing a formula in D1
+            if (!wantsCellInsert()) { clearSelection(); return; }
+            e.preventDefault();
+            isSelecting = true;
+            selStart = r; selEnd = r;
+            applySelection(selStart, selEnd);
+          });
+          el.addEventListener('mouseenter', () => {
+            if (isSelecting && selStart) {
+              selEnd = r;
+              applySelection(selStart, selEnd);
+            }
+          });
+        });
+        // Finalize selection on mouseup anywhere
+        document.addEventListener('mouseup', () => {
+          if (!isSelecting) return;
+          const range = currentSelectionRange();
+          if (range && wantsCellInsert()) {
+            insertAtCursor(d1, range);
+            setValueMode(false);
+          }
+          isSelecting = false;
+          clearSelection();
+        });
+        d1.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkNow(); } });
+        refs.forEach(r => { inputsByRef[r].addEventListener('input', () => { if ((d1.value || '').startsWith('=')) setValueMode(false); }); });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', () => { populateRandomData(); pickTask(); statusEl.className = 'trainer-status'; statusEl.textContent = ''; clearSelection(); d1.focus(); });
+        if (hintBtn) hintBtn.addEventListener('click', () => { hintBox.classList.toggle('open'); hintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint'; });
+        // init
+        populateRandomData(); pickTask();
+      })();
+    </script>
+    <script>
+      (function(){
+        // IF / IFS trainer
+        const root = document.getElementById('ififs-trainer');
+        if (!root) return;
+        const refs = ['A1','B1','C1','A2','B2','C2','A3','B3','C3'];
+        const inputsByRef = {};
+        refs.forEach(r => { inputsByRef[r] = root.querySelector(`input[data-ref="${r}"]`); });
+        const d1 = root.querySelector('#if-cell-D1');
+        const d1Box = root.querySelector('#if-cellbox-D1');
+        const statusEl = document.getElementById('ififs-status');
+        const taskEl = document.getElementById('ififs-task');
+        const checkBtn = document.getElementById('check-ififs');
+        const resetBtn = document.getElementById('reset-ififs');
+        const hintBtn = document.getElementById('toggle-ififs-hint');
+        const hintBox = document.getElementById('ififs-hintbox');
+
+        let kind = 'IF'; // or 'IFS'
+        // IF task vars
+        let ifRef = 'A1';
+        let ifOp = '>=';
+        let ifThreshold = 60;
+        let ifTrue = 'Pass';
+        let ifFalse = 'Fail';
+        // IFS task vars (3 tiers)
+        let baseRef = 'A1';
+        const tier1 = { op: '>=', val: 80, out: 'High' };
+        const tier2 = { op: '>=', val: 50, out: 'Mid' };
+        const tier3 = { out: 'Low' }; // TRUE fallback
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
+        function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
+        function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
+
+        function populateRandomData() {
+          refs.forEach(r => {
+            const el = inputsByRef[r];
+            if (!el) return;
+            if (r[0] === 'C') {
+              // C-col sometimes text Yes/No for variety
+              el.value = Math.random() < 0.5 ? 'Yes' : 'No';
+            } else {
+              el.value = String(randomInt(0, 100));
+            }
+          });
+          d1.value = '';
+          setValueMode(false);
+        }
+
+        function pickTask() {
+          kind = Math.random() < 0.5 ? 'IF' : 'IFS';
+          if (kind === 'IF') {
+            ifRef = randomChoice(['A1','B1','A2','B2','A3','B3']);
+            ifOp = randomChoice(['>=','>','<=','<','=']);
+            ifThreshold = randomChoice([30, 50, 60, 70, 80]);
+            ifTrue = 'Pass';
+            ifFalse = 'Fail';
+            if (taskEl) taskEl.textContent = `Task: In D1, use IF to return "Pass" if ${ifRef} ${ifOp} ${ifThreshold}, otherwise "Fail".`;
+          } else {
+            baseRef = randomChoice(['A1','B1','A2','B2','A3','B3']);
+            // Keep tiers as 80/50
+            if (taskEl) taskEl.textContent = `Task: In D1, use IFS to return "High" if ${baseRef}>=80, "Mid" if ${baseRef}>=50, otherwise "Low".`;
+          }
+        }
+
+        function expectedIF() {
+          const test = `${ifRef}${ifOp}${ifThreshold}`;
+          return `=IF(${test},"${ifTrue}","${ifFalse}")`.toUpperCase();
+        }
+        function expectedIFS() {
+          return `=IFS(${baseRef}>=80,"High",${baseRef}>=50,"Mid",TRUE,"Low")`.toUpperCase();
+        }
+
+        function checkNow() {
+          const n = normalizeFormula(d1.value || '');
+          if (!n.startsWith('=')) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Start with "=" in D1, then type the ${kind} formula.`;
+            return false;
+          }
+          const ok = (kind === 'IF') ? (n === expectedIF()) : (n === expectedIFS());
+          if (ok) {
+            // Compute and show expected result
+            let out = '';
+            if (kind === 'IF') {
+              const val = Number(inputsByRef[ifRef].value) || 0;
+              const cmp = (a, b) => ({
+                '>': a > b, '>=': a >= b, '<': a < b, '<=': a <= b, '=': a === b
+              })[ifOp](val, ifThreshold);
+              out = cmp ? ifTrue : ifFalse;
+            } else {
+              const v = Number(inputsByRef[baseRef].value) || 0;
+              out = v >= 80 ? 'High' : (v >= 50 ? 'Mid' : 'Low');
+            }
+            d1.value = out;
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅`;
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Not quite. Try: ${kind === 'IF' ? expectedIF() : expectedIFS()}`;
+            return false;
+          }
+        }
+
+        function wantsCellInsert() {
+          const v = (d1.value || '').trim();
+          return document.activeElement === d1 && v.startsWith('=');
+        }
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+        function setupCellInsert(el, ref) {
+          el.addEventListener('mousedown', (e) => { if (wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); } });
+          el.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); } });
+        }
+        refs.forEach(r => setupCellInsert(inputsByRef[r], r));
+        d1.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkNow(); } });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', () => { populateRandomData(); pickTask(); statusEl.className = 'trainer-status'; statusEl.textContent = ''; d1.focus(); });
+        if (hintBtn) hintBtn.addEventListener('click', () => { hintBox.classList.toggle('open'); hintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint'; });
+        // init
+        populateRandomData(); pickTask();
+      })();
+    </script>
+    <script>
+      (function(){
+        // AND / OR trainer
+        const root = document.getElementById('logic-trainer');
+        if (!root) return;
+        const refs = ['A1','B1','C1','A2','B2','C2','A3','B3','C3'];
+        const inputsByRef = {};
+        refs.forEach(r => { inputsByRef[r] = root.querySelector(`input[data-ref="${r}"]`); });
+        const d1 = root.querySelector('#lg-cell-D1');
+        const d1Box = root.querySelector('#lg-cellbox-D1');
+        const statusEl = document.getElementById('logic-status');
+        const taskEl = document.getElementById('logic-task');
+        const checkBtn = document.getElementById('check-logic');
+        const resetBtn = document.getElementById('reset-logic');
+        const hintBtn = document.getElementById('toggle-logic-hint');
+        const hintBox = document.getElementById('logic-hintbox');
+
+        let gate = 'AND'; // or 'OR'
+        // Conditions use B1="Yes" and C1>=N
+        let yesRef = 'B1';
+        let numRef = 'C1';
+        let numOp = '>=';
+        let numThreshold = 10;
+        let outTrue = 'OK';
+        let outFalse = 'No';
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
+        function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
+        function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
+
+        function populateRandomData() {
+          // A-col numbers not used; B-col Yes/No; C-col numbers
+          ['A1','A2','A3'].forEach(r => { inputsByRef[r].value = String(randomInt(0, 100)); });
+          ['B1','B2','B3'].forEach(r => { inputsByRef[r].value = Math.random() < 0.5 ? 'Yes' : 'No'; });
+          ['C1','C2','C3'].forEach(r => { inputsByRef[r].value = String(randomInt(0, 20)); });
+          d1.value = '';
+          setValueMode(false);
+        }
+        function pickTask() {
+          gate = Math.random() < 0.5 ? 'AND' : 'OR';
+          numOp = randomChoice(['>=','>','<=','<','=']);
+          numThreshold = randomChoice([5, 10, 12, 15]);
+          yesRef = 'B1'; numRef = 'C1';
+          const condText = `${yesRef}="Yes" ${gate} ${numRef}${numOp}${numThreshold}`;
+          if (taskEl) taskEl.textContent = `Task: In D1, use IF with ${gate} to return "OK" if ${condText}, otherwise "No".`;
+        }
+        function expectedFormula() {
+          return `=IF(${gate}(${yesRef}="Yes",${numRef}${numOp}${numThreshold}),"${outTrue}","${outFalse}")`.toUpperCase();
+        }
+
+        function checkNow() {
+          const n = normalizeFormula(d1.value || '');
+          if (!n.startsWith('=')) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Start with "=" in D1, then type the IF with ${gate} formula.`;
+            return false;
+          }
+          const ok = n === expectedFormula();
+          if (ok) {
+            const yes = String(inputsByRef[yesRef].value).trim().toUpperCase() === 'YES';
+            const v = Number(inputsByRef[numRef].value) || 0;
+            const cmp = (a, b) => ({
+              '>': a > b, '>=': a >= b, '<': a < b, '<=': a <= b, '=': a === b
+            })[numOp](v, numThreshold);
+            const pass = (gate === 'AND') ? (yes && cmp) : (yes || cmp);
+            d1.value = pass ? outTrue : outFalse;
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅`;
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Not quite. Try: ${expectedFormula()}`;
+            return false;
+          }
+        }
+
+        function wantsCellInsert() {
+          const v = (d1.value || '').trim();
+          return document.activeElement === d1 && v.startsWith('=');
+        }
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+        function setupCellInsert(el, ref) {
+          el.addEventListener('mousedown', (e) => { if (wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); } });
+          el.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); } });
+        }
+        refs.forEach(r => setupCellInsert(inputsByRef[r], r));
+        d1.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkNow(); } });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', () => { populateRandomData(); pickTask(); statusEl.className = 'trainer-status'; statusEl.textContent = ''; d1.focus(); });
+        if (hintBtn) hintBtn.addEventListener('click', () => { hintBox.classList.toggle('open'); hintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint'; });
+        // init
+        populateRandomData(); pickTask();
+      })();
+    </script>
+    <script>
+      (function(){
+        // Counting trainer (COUNT / COUNTIF) on a single grid, D1 formula
+        const root = document.getElementById('counting-trainer');
+        if (!root) return;
+        const refs = ['A1','B1','C1','A2','B2','C2','A3','B3','C3'];
+        const inputsByRef = {};
+        refs.forEach(r => { inputsByRef[r] = root.querySelector(`input[data-ref="${r}"]`); });
+        const d1 = root.querySelector('#cnt-cell-D1');
+        const d1Box = root.querySelector('#cnt-cellbox-D1');
+        const statusEl = document.getElementById('count-status');
+        const taskEl = document.getElementById('count-task');
+        const checkBtn = document.getElementById('check-count');
+        const resetBtn = document.getElementById('reset-count');
+        const hintBtn = document.getElementById('toggle-count-hint');
+        const hintBox = document.getElementById('count-hintbox');
+
+        const FUNCS = ['COUNT','COUNTIF'];
+        const CRITERIA = [
+          '>=10', '<=5', '>7', '<3', '=0', '=7', 'Yes'
+        ];
+        let func = 'COUNT';
+        let rangeStart = 'A1';
+        let rangeEnd = 'A3'; // or A1:C1
+        let criterion = ''; // used for COUNTIF
+        let selStart = null;
+        let selEnd = null;
+        let isSelecting = false;
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
+
+        function populateRandomData() {
+          // Mix numbers, "Yes"/"No", and blanks
+          refs.forEach(r => {
+            const roll = Math.random();
+            if (roll < 0.6) inputsByRef[r].value = String(randomInt(0, 20));
+            else if (roll < 0.8) inputsByRef[r].value = 'Yes';
+            else if (roll < 0.95) inputsByRef[r].value = 'No';
+            else inputsByRef[r].value = '';
+          });
+          d1.value = '';
+          setValueMode(false);
+        }
+        function pickTask() {
+          func = randomChoice(FUNCS);
+          const vertical = Math.random() < 0.5;
+          if (vertical) { rangeStart = 'A1'; rangeEnd = 'A3'; }
+          else { rangeStart = 'A1'; rangeEnd = 'C1'; }
+          if (func === 'COUNTIF') criterion = randomChoice(CRITERIA);
+          if (taskEl) {
+            if (func === 'COUNT') taskEl.textContent = `Task: In D1, compute COUNT over ${rangeStart}:${rangeEnd} (numbers only).`;
+            else taskEl.textContent = `Task: In D1, compute COUNTIF over ${rangeStart}:${rangeEnd} with criterion ${criterion === 'Yes' ? '"Yes"' : criterion}.`;
+          }
+        }
+        function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
+        function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
+
+        function isNumberLike(v) {
+          if (v == null) return false;
+          const n = parseFloat(String(v));
+          return isFinite(n) && String(v).trim() !== '';
+        }
+        function cmpNumber(n, crit) {
+          // crit like >=10, <5, =7, 7
+          let op = '=', rhs = '';
+          const m = crit.match(/^(>=|<=|=|>|<)?\s*([+-]?\d+(\.\d+)?)$/);
+          if (!m) return false;
+          op = m[1] || '=';
+          rhs = parseFloat(m[2]);
+          switch (op) {
+            case '>': return n > rhs;
+            case '<': return n < rhs;
+            case '>=': return n >= rhs;
+            case '<=': return n <= rhs;
+            case '=': default: return n === rhs;
+          }
+        }
+        function parseCountFormula(text) {
+          const n = normalizeFormula(text);
+          const m = n.match(/^=COUNT\(\s*([A-Z]\d:[A-Z]\d)\s*\)$/);
+          if (!m) return null;
+          return { range: m[1] };
+        }
+        function parseCountIfFormula(text) {
+          const n = normalizeFormula(text);
+          const m = n.match(/^=COUNTIF\(\s*([A-Z]\d:[A-Z]\d)\s*,\s*(.+)\)$/);
+          if (!m) return null;
+          let crit = m[2].trim();
+          // strip quotes if present
+          if ((crit.startsWith('"') && crit.endsWith('"')) || (crit.startsWith("'") && crit.endsWith("'"))) {
+            crit = crit.slice(1, -1);
+          }
+          return { range: m[1], criterion: crit };
+        }
+        function rangeRefs(rng) {
+          // rng like A1:A3 or A1:C1
+          const [start, end] = rng.split(':');
+          const colIdx = c => c.charCodeAt(0) - 'A'.charCodeAt(0);
+          const sCol = start[0], sRow = parseInt(start.slice(1), 10);
+          const eCol = end[0], eRow = parseInt(end.slice(1), 10);
+          const cols = [sCol, eCol].map(colIdx).sort((a,b)=>a-b);
+          const rows = [sRow, eRow].sort((a,b)=>a-b);
+          const out = [];
+          for (let ci = cols[0]; ci <= cols[1]; ci++) {
+            for (let ri = rows[0]; ri <= rows[1]; ri++) {
+              out.push(String.fromCharCode('A'.charCodeAt(0)+ci) + ri);
+            }
+          }
+          return out;
+        }
+        function computeExpected() {
+          const rng = `${rangeStart}:${rangeEnd}`;
+          const cells = rangeRefs(rng);
+          if (func === 'COUNT') {
+            return cells.reduce((acc, r) => acc + (isNumberLike(inputsByRef[r].value) ? 1 : 0), 0);
+          } else {
+            const crit = criterion;
+            const isNumericCrit = /^(\>=|\<=|=|>|<)?\s*[+-]?\d+(\.\d+)?$/.test(crit);
+            return cells.reduce((acc, r) => {
+              const raw = inputsByRef[r].value;
+              if (isNumericCrit && isNumberLike(raw)) {
+                const n = parseFloat(raw);
+                return acc + (cmpNumber(n, crit) ? 1 : 0);
+              } else {
+                // string comparison (e.g., Yes)
+                return acc + (String(raw).trim().toUpperCase() === crit.trim().toUpperCase() ? 1 : 0);
+              }
+            }, 0);
+          }
+        }
+        function isCorrectFormula(text) {
+          const n = normalizeFormula(text);
+          const expectedRange = `${rangeStart}:${rangeEnd}`;
+          if (func === 'COUNT') {
+            const p = parseCountFormula(n);
+            return !!p && p.range === expectedRange;
+          } else {
+            const p = parseCountIfFormula(n);
+            if (!p || p.range !== expectedRange) return false;
+            // Accept quotes or no quotes around numeric criteria; strings must be quoted in UI guidance but we accept both
+            const critNorm = p.criterion.trim().toUpperCase();
+            const wantNorm = criterion.trim().toUpperCase();
+            return critNorm === wantNorm;
+          }
+        }
+        function checkNow() {
+          const f = d1.value || '';
+          if (!f.trim().startsWith('=')) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Start with "=" in D1, then type ${func}${func==='COUNT' ? `(${rangeStart}:${rangeEnd})` : `(${rangeStart}:${rangeEnd}, ${criterion === 'Yes' ? '"Yes"' : criterion})`}.`;
+            return false;
+          }
+          if (isCorrectFormula(f)) {
+            const val = computeExpected();
+            d1.value = String(val);
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅  D1 = ${func}(${rangeStart}:${rangeEnd}${func==='COUNT' ? '' : `, ${criterion === 'Yes' ? '"Yes"' : criterion}`}) = ${val}`;
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Not quite. Try: =${func}(${rangeStart}:${rangeEnd}${func==='COUNT' ? '' : `, ${criterion === 'Yes' ? '"Yes"' : criterion}`})`;
+            return false;
+          }
+        }
+        function wantsCellInsert() {
+          const v = (d1.value || '').trim();
+          return document.activeElement === d1 && v.startsWith('=');
+        }
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+        function setupCellInsert(el, ref) {
+          // Use keyboard insert only; mouse is reserved for drag-select range
+          el.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); }
+          });
+        }
+        refs.forEach(r => setupCellInsert(inputsByRef[r], r));
+        // Drag-to-select range highlighting (like Summaries)
+        function refToParts(ref) {
+          const m = ref.match(/^([A-Z]+)(\d+)$/);
+          if (!m) return null;
+          return { col: m[1], row: Number(m[2]) };
+        }
+        function colToIndex(col) { return col.charCodeAt(0) - 'A'.charCodeAt(0); }
+        function indexToCol(idx) { return String.fromCharCode('A'.charCodeAt(0) + idx); }
+        function partsToRef(parts) { return `${parts.col}${parts.row}`; }
+        function rectRange(aRef, bRef) {
+          const a = refToParts(aRef), b = refToParts(bRef);
+          if (!a || !b) return [aRef];
+          const c1 = Math.min(colToIndex(a.col), colToIndex(b.col));
+          const c2 = Math.max(colToIndex(a.col), colToIndex(b.col));
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          const start = { col: indexToCol(c1), row: r1 };
+          const end = { col: indexToCol(c2), row: r2 };
+          return [partsToRef(start), partsToRef(end)];
+        }
+        function clearSelection() {
+          selStart = null; selEnd = null;
+          refs.forEach(r => {
+            const el = inputsByRef[r]?.closest('.sheet-c');
+            if (el) el.classList.remove('selected');
+          });
+        }
+        function applySelection(aRef, bRef) {
+          refs.forEach(r => {
+            const el = inputsByRef[r]?.closest('.sheet-c');
+            if (!el) return;
+            el.classList.remove('selected');
+          });
+          const a = refToParts(aRef), b = refToParts(bRef);
+          if (!a || !b) return;
+          const c1 = Math.min(colToIndex(a.col), colToIndex(b.col));
+          const c2 = Math.max(colToIndex(a.col), colToIndex(b.col));
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          for (let ci = c1; ci <= c2; ci++) {
+            for (let ri = r1; ri <= r2; ri++) {
+              const ref = `${indexToCol(ci)}${ri}`;
+              const el = inputsByRef[ref]?.closest('.sheet-c');
+              if (el) el.classList.add('selected');
+            }
+          }
+        }
+        function currentSelectionRange() {
+          if (!selStart || !selEnd) return null;
+          const [s, e] = rectRange(selStart, selEnd);
+          return `${s}:${e}`;
+        }
+        refs.forEach(r => {
+          const el = inputsByRef[r];
+          if (!el) return;
+          el.addEventListener('mousedown', (e) => {
+            if (!wantsCellInsert()) { clearSelection(); return; }
+            e.preventDefault();
+            isSelecting = true;
+            selStart = r; selEnd = r;
+            applySelection(selStart, selEnd);
+          });
+          el.addEventListener('mouseenter', () => {
+            if (isSelecting && selStart) {
+              selEnd = r;
+              applySelection(selStart, selEnd);
+            }
+          });
+        });
+        document.addEventListener('mouseup', () => {
+          if (!isSelecting) return;
+          const range = currentSelectionRange();
+          if (range && wantsCellInsert()) {
+            insertAtCursor(d1, range);
+            setValueMode(false);
+          }
+          isSelecting = false;
+          clearSelection();
+        });
+        d1.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkNow(); } });
+        refs.forEach(r => { inputsByRef[r].addEventListener('input', () => { if ((d1.value || '').startsWith('=')) setValueMode(false); }); });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', () => { populateRandomData(); pickTask(); statusEl.className = 'trainer-status'; statusEl.textContent = ''; clearSelection(); d1.focus(); });
+        if (hintBtn) hintBtn.addEventListener('click', () => { hintBox.classList.toggle('open'); hintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint'; });
+        // init
+        populateRandomData(); pickTask();
+      })();
+    </script>
+    <script>
+      (function(){
+        // Absolute reference trainer
+        const root = document.getElementById('absref-trainer');
+        if (!root) return;
+        const refs = ['A1','B1','C1','A2','B2','C2','A3','B3','C3'];
+        const headerRefs = ['A1']; // only A1 stays constant (anchor)
+        const inputsByRef = {};
+        refs.forEach(r => { inputsByRef[r] = root.querySelector(`input[data-ref="${r}"]`); });
+        const d1 = root.querySelector('#abs-cell-D1');
+        const d1Box = root.querySelector('#abs-cellbox-D1');
+        const statusEl = document.getElementById('absref-status');
+        const taskEl = document.getElementById('absref-task');
+        const checkBtn = document.getElementById('check-absref');
+        const resetBtn = document.getElementById('reset-absref');
+        const hintBtn = document.getElementById('toggle-absref-hint');
+        const hintBox = document.getElementById('absref-hintbox');
+        const fillBtn = document.getElementById('fill-absref');
+        const d2Box = document.getElementById('abs-cellbox-D2');
+        const d3Box = document.getElementById('abs-cellbox-D3');
+        const outD2 = document.getElementById('abs-out-D2');
+        const outD3 = document.getElementById('abs-out-D3');
+        const fillHandle = document.getElementById('abs-fill-handle');
+        const chk1 = document.getElementById('abscheck-1');
+        const chk2 = document.getElementById('abscheck-2');
+        const chk3 = document.getElementById('abscheck-3');
+
+        let varRef = 'B1';
+        let anchorRef = 'A1';
+        let storedFormula = '';
+
+        function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
+
+        function populateRandomData() {
+          refs.forEach(r => { inputsByRef[r].value = String(randomInt(1, 9)); });
+          // Make anchor an integer rate to keep it simple for practice
+          inputsByRef[anchorRef].value = String(randomInt(2, 10));
+          d1.value = '';
+          setValueMode(false);
+          if (outD2) outD2.textContent = '';
+          if (outD3) outD3.textContent = '';
+          storedFormula = '';
+          updateRowChecks();
+        }
+        function pickTask() {
+          anchorRef = 'A1';
+          const varPool = ['B1','C1'];
+          varRef = randomChoice(varPool);
+          if (taskEl) taskEl.textContent = `Task: In D1, multiply ${varRef} by the fixed rate in $${anchorRef[0]}$${anchorRef.slice(1)} using an absolute reference.`;
+          // Update hint steps for the specific refs
+          const s2 = document.getElementById('abs-step-2');
+          const s4 = document.getElementById('abs-step-4');
+          if (s2) s2.textContent = `Click the changing cell to insert it (e.g., ${varRef}).`;
+          if (s4) s4.textContent = `Type the absolute ref exactly like $${anchorRef[0]}$${anchorRef.slice(1)} (add $ before column and row).`;
+        }
+        function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
+        function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
+        function isAbsAnchor(token) {
+          const expected = `$${anchorRef[0]}$${anchorRef.slice(1)}`;
+          return token === expected;
+        }
+        function parseAbsMultiplyFormula(text) {
+          const n = normalizeFormula(text);
+          if (!n.startsWith('=')) return null;
+          const body = n.slice(1);
+          // Patterns: VAR * $ANCHOR$ or $ANCHOR$ * VAR
+          const star = body.split('*');
+          if (star.length === 2) {
+            const [a, b] = star;
+            if (refs.includes(a) && isAbsAnchor(b)) return { ref: a, usesAbs: true };
+            if (refs.includes(b) && isAbsAnchor(a)) return { ref: b, usesAbs: true };
+          }
+          // PRODUCT(VAR, $ANCHOR$) or PRODUCT($ANCHOR$, VAR)
+          const m = body.match(/^PRODUCT\((.+),(.+)\)$/);
+          if (m) {
+            const a = m[1], b = m[2];
+            if (refs.includes(a) && isAbsAnchor(b)) return { ref: a, usesAbs: true };
+            if (refs.includes(b) && isAbsAnchor(a)) return { ref: b, usesAbs: true };
+          }
+          return null;
+        }
+        function expectedValue() {
+          const a = Number(inputsByRef[varRef].value) || 0;
+          const b = Number(inputsByRef[anchorRef].value) || 0;
+          return a * b;
+        }
+        function expectedForRow(rowIndex) {
+          const base = refToParts(varRef);
+          if (!base) return 0;
+          const offset = rowIndex - 1;
+          const target = partsToRef({ col: base.col, row: base.row + offset });
+          const a = Number(inputsByRef[target]?.value) || 0;
+          const b = Number(inputsByRef[anchorRef]?.value) || 0;
+          return a * b;
+        }
+        function updateRowChecks() {
+          if (chk1) chk1.classList.remove('ok');
+          if (chk2) chk2.classList.remove('ok');
+          if (chk3) chk3.classList.remove('ok');
+          const inValueMode = d1Box.classList.contains('value-mode');
+          const expected1 = expectedForRow(1);
+          const v1 = Number(d1.value);
+          const hasValidFormula = !!(storedFormula && parseAbsMultiplyFormula(storedFormula));
+          const d1ok = (inValueMode && isFinite(v1) && Math.abs(v1 - expected1) < 1e-9) || hasValidFormula;
+          if (chk1 && d1ok) chk1.classList.add('ok');
+          const v2 = Number((outD2?.textContent || '').trim());
+          const v3 = Number((outD3?.textContent || '').trim());
+          const e2 = expectedForRow(2);
+          const e3 = expectedForRow(3);
+          if (chk2 && isFinite(v2) && Math.abs(v2 - e2) < 1e-9) chk2.classList.add('ok');
+          if (chk3 && isFinite(v3) && Math.abs(v3 - e3) < 1e-9) chk3.classList.add('ok');
+        }
+        function refToParts(ref) {
+          const m = ref.match(/^([A-Z]+)(\d+)$/);
+          if (!m) return null;
+          return { col: m[1], row: Number(m[2]) };
+        }
+        function partsToRef(parts) { return `${parts.col}${parts.row}`; }
+        function fillDown(rows) {
+          // Only proceed if D1 formula is valid and uses abs anchor
+          const parsed = parseAbsMultiplyFormula(d1.value || '');
+          if (!parsed) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Enter a valid formula in D1 first (e.g., =${varRef}*$${anchorRef[0]}$${anchorRef.slice(1)}).`;
+            return;
+          }
+          const baseParts = refToParts(parsed.ref);
+          if (!baseParts) return;
+          const anchorVal = Number(inputsByRef[anchorRef].value) || 0;
+          if (rows >= 1 && outD2) {
+            const p2 = { col: baseParts.col, row: baseParts.row + 1 };
+            const v2 = Number(inputsByRef[partsToRef(p2)]?.value) || 0;
+            outD2.textContent = String(v2 * anchorVal);
+          }
+          if (rows >= 2 && outD3) {
+            const p3 = { col: baseParts.col, row: baseParts.row + 2 };
+            const v3 = Number(inputsByRef[partsToRef(p3)]?.value) || 0;
+            outD3.textContent = String(v3 * anchorVal);
+          }
+        }
+        function checkNow() {
+          const f = d1.value || '';
+          const parsed = parseAbsMultiplyFormula(f);
+          if (!parsed) {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Start with = and multiply ${varRef} by $${anchorRef[0]}$${anchorRef.slice(1)} (e.g., =${varRef}*$${anchorRef[0]}$${anchorRef.slice(1)}).`;
+            return false;
+          }
+          const refOk = parsed.ref === varRef;
+          if (refOk) {
+            const val = expectedValue();
+            storedFormula = f;
+            d1.value = String(val);
+            setValueMode(true);
+            statusEl.className = 'trainer-status ok';
+            statusEl.textContent = `Correct ✅  D1 = ${varRef} * $${anchorRef[0]}$${anchorRef.slice(1)} = ${val}`;
+            updateRowChecks();
+            return true;
+          } else {
+            statusEl.className = 'trainer-status err';
+            statusEl.textContent = `Make sure you used the changing cell ${varRef} with the absolute anchor $${anchorRef[0]}$${anchorRef.slice(1)}.`;
+            return false;
+          }
+        }
+        function wantsCellInsert() { const v = (d1.value || '').trim(); return document.activeElement === d1 && v.startsWith('='); }
+        function insertAtCursor(input, text) {
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          const before = input.value.slice(0, start);
+          const after = input.value.slice(end);
+          input.value = before + text + after;
+          const caret = start + text.length;
+          input.setSelectionRange(caret, caret);
+          input.focus();
+        }
+        function setupCellInsert(el, ref) {
+          el.addEventListener('mousedown', (e) => { if (wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); } });
+          el.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && wantsCellInsert()) { e.preventDefault(); insertAtCursor(d1, ref); } });
+        }
+        refs.forEach(r => setupCellInsert(inputsByRef[r], r));
+        // Also allow typing the absolute anchor by clicking the anchor header cell's input (will insert plain ref; user still needs $)
+        d1.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkNow(); } });
+        d1.addEventListener('focus', () => {
+          if (d1Box.classList.contains('value-mode') && storedFormula) {
+            setValueMode(false);
+            d1.value = storedFormula;
+          }
+        });
+        d1.addEventListener('input', () => {
+          if ((d1.value || '').startsWith('=')) {
+            setValueMode(false);
+            storedFormula = d1.value;
+          }
+        });
+        refs.forEach(r => { inputsByRef[r].addEventListener('input', () => {
+          if ((d1.value || '').startsWith('=')) setValueMode(false);
+          // Update computed outputs and checks if they exist
+          if (outD2 && outD2.textContent) outD2.textContent = String(expectedForRow(2));
+          if (outD3 && outD3.textContent) outD3.textContent = String(expectedForRow(3));
+          if (d1Box.classList.contains('value-mode')) d1.value = String(expectedForRow(1));
+          updateRowChecks();
+        }); });
+        if (checkBtn) checkBtn.addEventListener('click', checkNow);
+        if (resetBtn) resetBtn.addEventListener('click', () => { pickTask(); populateRandomData(); statusEl.className = 'trainer-status'; statusEl.textContent = ''; d1.focus(); });
+        if (hintBtn) hintBtn.addEventListener('click', () => { hintBox.classList.toggle('open'); hintBtn.textContent = hintBox.classList.contains('open') ? 'Hide hint' : 'Show hint'; });
+        if (fillBtn) fillBtn.addEventListener('click', () => { fillDown(2); updateRowChecks(); });
+        // Drag-to-fill down
+        if (fillHandle) {
+          let dragging = false;
+          let fillRows = 0;
+          const onMouseUp = () => {
+            if (dragging) {
+              fillDown(Math.max(1, Math.min(2, fillRows || 1)));
+            }
+            dragging = false;
+            fillRows = 0;
+            document.removeEventListener('mouseup', onMouseUp);
+            updateRowChecks();
+          };
+          fillHandle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            dragging = true;
+            fillRows = 0;
+            document.addEventListener('mouseup', onMouseUp);
+          });
+          if (d2Box) d2Box.addEventListener('mouseenter', () => { if (dragging) fillRows = 1; });
+          if (d3Box) d3Box.addEventListener('mouseenter', () => { if (dragging) fillRows = 2; });
+        }
+        // init
+        pickTask(); populateRandomData();
+      })();
+    </script>
     <script src="game.js"></script>
   </body>
   </html>
