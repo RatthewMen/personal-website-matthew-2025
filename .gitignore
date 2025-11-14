@@ -65,5 +65,9 @@ node_modules/
 # dotenv environment variables file
 .env
 
+# Cloudflare Worker local dev secrets
+.dev.vars
+.dev.vars.*
+
 # dataconnect generated files
 .dataconnect

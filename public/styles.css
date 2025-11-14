@@ -46,6 +46,9 @@ body.lock-scroll { overflow: hidden; }
 .site-nav .brand {
   font-weight: 700;
   letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .site-nav .links {
   display: flex;
@@ -68,6 +71,77 @@ body.lock-scroll { overflow: hidden; }
 /* Rectangular GitHub button */
 #nav-github { border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: rgba(36,46,64,0.35); }
 #nav-github:hover { background: rgba(36,46,64,0.5); border-color: rgba(255,255,255,0.12); }
+
+/* Dark mode toggle + username */
+.dm-toggle {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+}
+.dm-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.dm-toggle .slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: background 180ms ease, border-color 180ms ease;
+}
+.dm-toggle .slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0b111b;
+  transition: transform 180ms ease, background 180ms ease;
+}
+.dm-toggle input:checked + .slider {
+  background: rgba(124,207,255,0.35);
+  border-color: rgba(124,207,255,0.45);
+}
+.dm-toggle input:checked + .slider::before {
+  transform: translateX(18px);
+  background: #d7e3f3;
+}
+.user-name-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #d7e3f3;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+.user-name-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); }
+
+/* Light mode overrides (default is dark) */
+body.light-mode {
+  background: radial-gradient(1200px 800px at 70% 10%, #f0f4fa 0%, #e8eef7 60%, #e5ecf6 100%);
+  color: #0b111b;
+}
+body.light-mode .site-nav {
+  background: rgba(255,255,255,0.72);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+body.light-mode .nav-link { color: #0b111b; }
+body.light-mode .nav-link.active {
+  background: rgba(0,0,0,0.08);
+  color: #0b111b;
+}
+body.light-mode .user-name-btn { color: #0b111b; }
 
 /* GitHub About card */
 .github-card .gh-chart-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; padding: 6px; }

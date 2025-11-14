@@ -11,12 +11,19 @@
   <body>
     <header class="site-nav">
       <div class="nav-inner">
-        <div class="brand"></div>
+        <div class="brand">
+          <label class="dm-toggle" title="Toggle dark mode">
+            <input type="checkbox" id="darkmode-toggle" checked>
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+          <button id="user-name-btn" class="user-name-btn" title="Click to edit your name">Anonymous</button>
+        </div>
         <nav class="links">
           <a href="#about" data-tab="about" class="nav-link active">About</a>
           <a href="#game" data-tab="game" class="nav-link">Disk Game</a>
           <a href="#widgets" data-tab="widgets" class="nav-link">Spreadsheet Learner</a>
           <a href="#pokemon" data-tab="pokemon" class="nav-link">Pokemon Database</a>
+          <a href="#users" data-tab="users" class="nav-link">Visited Users</a>
         </nav>
         <a href="#style" data-tab="style" class="nav-link nav-right">Style Guide</a>
       </div>
@@ -657,6 +664,14 @@
           <ol id="leaderboard-full-list"></ol>
         </div>
       </section>
+      
+      <section id="users-tab" class="tab">
+        <div class="about-wrap">
+          <h1>Visited Users</h1>
+          <p>Recent visitors saved in the database.</p>
+          <div id="vu-grid" class="sg-grid"></div>
+        </div>
+      </section>
     </main>
 
     <script>
@@ -1059,6 +1074,8 @@
     appId: "1:42101150103:web:c00594a661fb2f9a5434d2"
   };
 </script>
+    <script type="module" src="user.js"></script>
+    <script type="module" src="visited-users.js"></script>
     <script>window.USE_REALTIME_DB = true; // force RTDB for leaderboard</script>
     <script type="module" src="leaderboard.js"></script>
     <script src="github.js"></script>
