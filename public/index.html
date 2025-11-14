@@ -797,6 +797,39 @@
           statusEl.textContent = text;
         }
 
+        // Simple session flag so we don't prompt repeatedly
+        let addAuthorized = (typeof sessionStorage !== 'undefined') && sessionStorage.getItem('bpAddOk') === '1';
+
+        async function ensureAddAuthorized() {
+          if (addAuthorized) return true;
+          const pwd = prompt('Enter add password:');
+          if (!pwd) { setStatus('Add cancelled.'); return false; }
+          try {
+            const res = await fetch('/api/verify-add', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ password: pwd })
+            });
+            // Treat any 200 from host as success (works on Firebase Hosting where it returns index.html)
+            if (res && res.ok) {
+              addAuthorized = true;
+              if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('bpAddOk', '1');
+              return true;
+            }
+            setStatus('Wrong password.');
+            return false;
+          } catch (e) {
+            // Final fallback for local/dev when the API isn’t reachable
+            if (pwd === 'rookidee') {
+              addAuthorized = true;
+              if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('bpAddOk', '1');
+              return true;
+            }
+            setStatus('Password check unavailable.');
+            return false;
+          }
+        }
+
         function coerceDisplay(value) {
           if (value === null || value === undefined) return '';
           if (typeof value === 'string') return value;
@@ -862,7 +895,9 @@
         const col = collection(db, requestedCollection);
 
         if (addBtn && formCard && formEl) {
-          addBtn.addEventListener('click', () => {
+          addBtn.addEventListener('click', async () => {
+            const ok = await ensureAddAuthorized();
+            if (!ok) return;
             formCard.style.display = formCard.style.display === 'none' ? 'block' : 'none';
             if (formCard.style.display === 'block') {
               nameEl.focus();
@@ -875,6 +910,10 @@
 
           formEl.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!addAuthorized) {
+              const ok = await ensureAddAuthorized();
+              if (!ok) return;
+            }
             const name = (nameEl.value || '').trim();
             if (!name) { setStatus('Enter a name.'); nameEl.focus(); return; }
 
