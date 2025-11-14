@@ -11,14 +11,14 @@
   <body>
     <header class="site-nav">
       <div class="nav-inner">
-        <div class="brand">Matthew Ren</div>
+        <div class="brand"></div>
         <nav class="links">
           <a href="#about" data-tab="about" class="nav-link active">About</a>
-          <a href="#game" data-tab="game" class="nav-link">Game</a>
-          <a href="#style" data-tab="style" class="nav-link">Style Guide</a>
-          <a href="#widgets" data-tab="widgets" class="nav-link">Widgets</a>
-          <a href="bird-pokemon.html?collection=Bird%20Pokemon" class="nav-link">Bird Pokémon</a>
+          <a href="#game" data-tab="game" class="nav-link">Disk Game</a>
+          <a href="#widgets" data-tab="widgets" class="nav-link">Spreadsheet Learner</a>
+          <a href="#pokemon" data-tab="pokemon" class="nav-link">Pokemon Database</a>
         </nav>
+        <a href="#style" data-tab="style" class="nav-link nav-right">Style Guide</a>
       </div>
     </header>
 
@@ -68,6 +68,62 @@
         </div>
 
         <div id="container"></div>
+      </section>
+
+      <section id="pokemon-tab" class="tab">
+        <div class="style-wrap">
+          <div class="row small" style="margin-bottom:10px">
+            <a class="pill" href="#about" data-tab="about">← Back to Home</a>
+          </div>
+          <h1>Pokemon Database</h1>
+          <p>Live data from the “bird pokemon” collection in Firestore.</p>
+
+          <div id="bp-status" class="mono" style="margin:8px 0 12px;color:#9fb5d4">Loading…</div>
+
+          <div class="row small" style="margin:10px 0">
+            <button id="bp-add-btn" class="pill" type="button">+ Add Pokémon</button>
+          </div>
+
+          <div id="bp-form-card" class="about-card" style="display:none">
+            <h2 style="margin-bottom:6px">Add Pokémon</h2>
+            <form id="bp-form" class="mono" style="display:grid;gap:8px;max-width:520px">
+              <div>
+                <label for="bp-name">Name (document ID)</label><br>
+                <input id="bp-name" type="text" placeholder="Fletchling" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#0f1520;color:#e6eef8">
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:8px">
+                <div>
+                  <label for="bp-gen">Generation</label><br>
+                  <input id="bp-gen" type="number" step="1" min="1" placeholder="6" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#0f1520;color:#e6eef8">
+                </div>
+                <div>
+                  <label for="bp-pokedex">Pokedex Number</label><br>
+                  <input id="bp-pokedex" type="number" step="1" min="1" placeholder="661" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#0f1520;color:#e6eef8">
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:8px">
+                <div>
+                  <label for="bp-height">Height</label><br>
+                  <input id="bp-height" type="number" step="0.1" min="0" placeholder="1" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#0f1520;color:#e6eef8">
+                </div>
+                <div>
+                  <label for="bp-weight">Weight</label><br>
+                  <input id="bp-weight" type="number" step="0.1" min="0" placeholder="3.7" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#0f1520;color:#e6eef8">
+                </div>
+              </div>
+              <div>
+                <label for="bp-image">Image URL (optional)</label><br>
+                <input id="bp-image" type="url" placeholder="https://..." style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#0f1520;color:#e6eef8">
+              </div>
+              <div class="row small" style="display:flex;gap:8px;align-items:center">
+                <button type="submit" class="pill">Save</button>
+                <button id="bp-cancel" type="button" class="pill">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="bp-grid" class="sg-grid"></div>
+        </div>
       </section>
 
       <section id="about-tab" class="tab active">
@@ -138,7 +194,6 @@
               <h2>Contact</h2>
               <p>Email: <span class="mono">goofygoober6769420@gmail.com</span></p>
               <div class="row small" style="margin-top:8px">
-                <a class="pill" href="https://github.com/RatthewMen" target="_blank" rel="noopener noreferrer">GitHub Profile →</a>
               </div>
             </div>
           </div>
@@ -606,7 +661,7 @@
 
     <script>
       (function(){
-        const links = document.querySelectorAll('.nav-link');
+        const links = document.querySelectorAll('.nav-link[data-tab]');
         function activate(tab){
           document.querySelectorAll('.tab').forEach(s => s.classList.remove('active'));
           document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -696,6 +751,169 @@
           setTimeout(() => { load(); }, 1200);
         });
       })();
+    </script>
+
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
+      import { getFirestore, collection, onSnapshot, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
+
+      // Only set up when Pokemon tab elements exist
+      const statusEl = document.getElementById('bp-status');
+      const gridEl = document.getElementById('bp-grid');
+      if (statusEl && gridEl && window.FIREBASE_CONFIG) {
+        const app = initializeApp(window.FIREBASE_CONFIG);
+        const db = getFirestore(app);
+
+        const addBtn = document.getElementById('bp-add-btn');
+        const formCard = document.getElementById('bp-form-card');
+        const formEl = document.getElementById('bp-form');
+        const cancelBtn = document.getElementById('bp-cancel');
+
+        const nameEl = document.getElementById('bp-name');
+        const genEl = document.getElementById('bp-gen');
+        const pokedexEl = document.getElementById('bp-pokedex');
+        const heightEl = document.getElementById('bp-height');
+        const weightEl = document.getElementById('bp-weight');
+        const imageEl = document.getElementById('bp-image');
+
+        const requestedCollection = 'Bird Pokemon';
+
+        function setStatus(text) {
+          statusEl.textContent = text;
+        }
+
+        function coerceDisplay(value) {
+          if (value === null || value === undefined) return '';
+          if (typeof value === 'string') return value;
+          if (Array.isArray(value)) return value.map(v => typeof v === 'string' ? v : JSON.stringify(v)).join(', ');
+          if (value instanceof Date) return value.toLocaleString();
+          if (typeof value === 'object') return JSON.stringify(value);
+          return String(value);
+        }
+
+        function render(docs) {
+          if (!Array.isArray(docs)) docs = [];
+          gridEl.innerHTML = '';
+          if (docs.length === 0) {
+            setStatus(`No documents found in “${requestedCollection}”.`);
+            return;
+          }
+          setStatus(`Project: ${window.FIREBASE_CONFIG?.projectId || '(unknown)'} • Collection: “${requestedCollection}” • ${docs.length} item${docs.length === 1 ? '' : 's'}`);
+          docs.forEach(doc => {
+            const card = document.createElement('div');
+            card.className = 'about-card';
+
+            const title = document.createElement('h2');
+            const name = (typeof doc.name === 'string' && doc.name.trim()) ? doc.name.trim() :
+                         (typeof doc.title === 'string' && doc.title.trim()) ? doc.title.trim() : doc.id;
+            title.textContent = name || 'Untitled';
+            card.appendChild(title);
+
+            const imageField = (typeof doc.imageUrl === 'string' && doc.imageUrl) ? 'imageUrl'
+                              : (typeof doc.image === 'string' && doc.image) ? 'image'
+                              : null;
+            if (imageField) {
+              const box = document.createElement('div');
+              box.className = 'game-thumb';
+              const img = document.createElement('img');
+              img.src = doc[imageField];
+              img.alt = name || 'Image';
+              img.loading = 'lazy';
+              box.appendChild(img);
+              card.appendChild(box);
+            }
+
+            const ul = document.createElement('ul');
+            ul.style.listStyle = 'none';
+            ul.style.paddingLeft = '0';
+            ul.style.display = 'grid';
+            ul.style.gap = '6px';
+
+            Object.keys(doc).forEach(k => {
+              if (k === 'id' || k === 'image' || k === 'imageUrl') return;
+              if (k === 'name' || k === 'title') return;
+              const li = document.createElement('li');
+              li.className = 'mono';
+              li.style.color = '#c7d7ea';
+              li.textContent = `${k}: ${coerceDisplay(doc[k])}`;
+              ul.appendChild(li);
+            });
+            card.appendChild(ul);
+
+            gridEl.appendChild(card);
+          });
+        }
+
+        const col = collection(db, requestedCollection);
+
+        if (addBtn && formCard && formEl) {
+          addBtn.addEventListener('click', () => {
+            formCard.style.display = formCard.style.display === 'none' ? 'block' : 'none';
+            if (formCard.style.display === 'block') {
+              nameEl.focus();
+            }
+          });
+          if (cancelBtn) cancelBtn.addEventListener('click', () => {
+            formEl.reset();
+            formCard.style.display = 'none';
+          });
+
+          formEl.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = (nameEl.value || '').trim();
+            if (!name) { setStatus('Enter a name.'); nameEl.focus(); return; }
+
+            const gen = Number(genEl.value);
+            const height = Number(heightEl.value);
+            const pokedex = Number(pokedexEl.value);
+            const weight = Number(weightEl.value);
+            const imageUrl = (imageEl.value || '').trim();
+
+            const data = {
+              'Generation': Number.isFinite(gen) ? gen : null,
+              'Height': Number.isFinite(height) ? height : null,
+              'Pokedex Number': Number.isFinite(pokedex) ? pokedex : null,
+              'Weight': Number.isFinite(weight) ? weight : null
+            };
+            if (imageUrl) data.imageUrl = imageUrl;
+
+            try {
+              await setDoc(doc(col, name), data, { merge: true });
+              setStatus(`Saved “${name}”.`);
+              formEl.reset();
+              formCard.style.display = 'none';
+            } catch (e) {
+              console.warn('Save failed', e);
+              setStatus(`Save failed: ${e?.code || e?.message || e}`);
+            }
+          });
+        }
+
+        let liveBound = false;
+        try {
+          onSnapshot(col, snapshot => {
+            const rows = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            render(rows);
+          }, err => {
+            console.warn('Live update failed, falling back to one-time fetch', err);
+            if (!liveBound) {
+              getDocs(col).then(snap => {
+                render(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+              }).catch((e) => {
+                setStatus(`Failed to load data from “${requestedCollection}”. ${e?.code ? '(' + e.code + ')' : ''}`);
+              });
+            }
+          });
+          liveBound = true;
+        } catch (e) {
+          console.warn('onSnapshot not available, using one-time fetch', e);
+          getDocs(col).then(snap => {
+            render(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+          }).catch(() => {
+            setStatus(`Failed to load data from “${requestedCollection}”.`);
+          });
+        }
+      }
     </script>
 
     <script>
