@@ -21,6 +21,7 @@
         <nav class="links">
           <a href="#about" data-tab="about" class="nav-link active">About</a>
           <a href="#game" data-tab="game" class="nav-link">Disk Game</a>
+          <a href="#aim" data-tab="aim" class="nav-link">Aim Trainer</a>
           <a href="#widgets" data-tab="widgets" class="nav-link">Spreadsheet Learner</a>
           <a href="#pokemon" data-tab="pokemon" class="nav-link">Pokemon Database</a>
           <a href="#users" data-tab="users" class="nav-link">Visited Users</a>
@@ -32,6 +33,55 @@
     
 
     <main>
+      <section id="aim-tab" class="tab">
+        <div class="about-wrap">
+          <h1>Aim Trainer</h1>
+          <p>Click 5 dots as fast as you can. Press Start to begin.</p>
+          <div class="widgets-grid">
+            <div class="about-card">
+              <div class="row small" style="margin-bottom:8px">
+                <button id="aim-start" type="button" class="pill">Start</button>
+                <span id="aim-status" class="pill" style="cursor:default">Ready</span>
+              </div>
+              <div id="aim-area" class="card" aria-label="Aim training area"></div>
+              <div class="row small" style="margin-top:8px">
+                <div class="pill">Time: <span id="aim-time">0.000s</span></div>
+                <div class="pill">Best: <span id="aim-best">—</span></div>
+                <div class="pill">Last: <span id="aim-last">—</span></div>
+              </div>
+            </div>
+            <div class="about-card">
+              <div class="lb-header">Aim Trainer Leaderboard</div>
+              <div class="row small" style="margin:6px 0 10px">
+                <button id="aim-toggle-users" type="button" class="pill">Top Users</button>
+                <button id="aim-toggle-all" type="button" class="pill">All Runs</button>
+              </div>
+              <div id="aim-users-wrap">
+                <h3 class="lb-subheader">Top Users (best time)</h3>
+                <div class="lb-head lb-row">
+                  <span class="lb-col-rank">#</span>
+                  <span class="lb-col-user">Username</span>
+                  <span class="lb-col-time">Time</span>
+                  <span class="lb-col-splits">Splits</span>
+                  <span class="lb-col-avg">Avg Split</span>
+                </div>
+                <ol id="aim-lb-users-list"></ol>
+              </div>
+              <div id="aim-all-wrap">
+                <h3 class="lb-subheader">All Runs</h3>
+                <div class="lb-head lb-row">
+                  <span class="lb-col-rank">#</span>
+                  <span class="lb-col-user">Username</span>
+                  <span class="lb-col-time">Time</span>
+                  <span class="lb-col-splits">Splits</span>
+                  <span class="lb-col-avg">Avg Split</span>
+                </div>
+                <ol id="aim-lb-all-list"></ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="game-tab" class="tab">
         <div id="hud">
           <div class="row">
@@ -2412,6 +2462,7 @@
         pickTask(); populateRandomData();
       })();
     </script>
+    <script type="module" src="aim.js"></script>
     <script src="game.js"></script>
   </body>
   </html>
