@@ -3,7 +3,6 @@
 (function () {
 	// Elements
 	const area = document.getElementById('aim-area');
-	const startBtn = document.getElementById('aim-start');
 	const timeEl = document.getElementById('aim-time');
 	const bestEl = document.getElementById('aim-best');
 	const lastEl = document.getElementById('aim-last');
@@ -14,7 +13,7 @@
 	const allWrap = document.getElementById('aim-all-wrap');
 	const btnUsers = document.getElementById('aim-toggle-users');
 	const btnAll = document.getElementById('aim-toggle-all');
-	if (!area || !startBtn || !timeEl || !bestEl || !lastEl || !statusEl || !usersList || !allList || !usersWrap || !allWrap || !btnUsers || !btnAll) return;
+	if (!area || !timeEl || !bestEl || !lastEl || !statusEl || !usersList || !allList || !usersWrap || !allWrap || !btnUsers || !btnAll) return;
 
 	// Constants
 	const DOT_COUNT = 5;
@@ -135,17 +134,22 @@
 	}
 
 	function spawnDots() {
-		const rect = area.getBoundingClientRect();
-		const w = rect.width;
-		const h = rect.height;
+		// Use clientWidth/Height to avoid 0 during early layout; retry if too small
+		const w = area.clientWidth;
+		const h = area.clientHeight;
+		if (!w || !h || w < DOT_DIAMETER * 3 || h < DOT_DIAMETER * 3) {
+			// Defer until layout stabilizes
+			setTimeout(spawnDots, 80);
+			return;
+		}
 		const radius = DOT_DIAMETER / 2;
 		const placed = [];
 
 		for (let i = 0; i < DOT_COUNT; i++) {
 			let x = 0, y = 0, tries = 0;
 			do {
-				x = Math.random() * (w - DOT_DIAMETER) + radius;
-				y = Math.random() * (h - DOT_DIAMETER) + radius;
+				x = Math.random() * Math.max(1, (w - DOT_DIAMETER)) + radius;
+				y = Math.random() * Math.max(1, (h - DOT_DIAMETER)) + radius;
 				tries++;
 				// Avoid overlapping too much
 			} while (
@@ -171,25 +175,38 @@
 	function onDotClick(e) {
 		const el = e.currentTarget;
 		if (el && el.parentNode === area) {
+			// If this is the first click of the round, start timer at this instant
+			let ts = now();
+			if (!running) {
+				startRun(ts);
+			}
 			area.removeChild(el);
 			remaining -= 1;
 			// record cumulative time since start for this click
-			try { clickTimesMs.push(now() - startTimeMs); } catch (_) {}
+			try { clickTimesMs.push(ts - startTimeMs); } catch (_) {}
 			if (remaining <= 0) finishRun();
 		}
 	}
 
-	function startRun() {
+	function startRun(atTs) {
 		if (running) return;
 		running = true;
+		// Do not clear or respawn dots; we want the first click to count
+		startTimeMs = typeof atTs === 'number' ? atTs : now();
+		setStatus('Go!');
+		updateTimer();
+		timerId = window.setInterval(updateTimer, 50);
+	}
+
+	function prepareRound() {
+		running = false;
+		window.clearInterval(timerId);
+		timerId = 0;
 		remaining = DOT_COUNT;
 		clickTimesMs = [];
 		clearDots();
 		spawnDots();
-		startTimeMs = now();
-		setStatus('Go!');
-		updateTimer();
-		timerId = window.setInterval(updateTimer, 50);
+		setStatus('Tap to start');
 	}
 
 	function updateTimer() {
@@ -206,7 +223,7 @@
 		const elapsed = now() - startTimeMs;
 		timeEl.textContent = formatSeconds(elapsed);
 		lastEl.textContent = formatSeconds(elapsed);
-		setStatus('Finished! Press Start to play again.');
+		setStatus('Finished! Tap to play again.');
 
 		// Save best (local UI-only)
 		try {
@@ -242,6 +259,8 @@
 		} catch (e) {
 			console.warn('[AimTrainer] Failed to submit run to Firestore. Falling back to local-only UI.', e);
 		}
+		// Prepare next round
+		prepareRound();
 	}
 
 	function subscribeTop() {
@@ -318,13 +337,15 @@
 	}
 
 	// Wire up
-	startBtn.addEventListener('click', () => {
-		if (running) return;
-		setStatus('Spawning…');
-		startRun();
-	});
 	btnUsers.addEventListener('click', () => setView('users'));
 	btnAll.addEventListener('click', () => setView('all'));
+	// Click-to-start on area; if clicking a dot, dot handler starts it
+	area.addEventListener('click', (e) => {
+		if (running) return;
+		// Start only if the click target is the area itself (not a dot)
+		if (e.target !== area) return;
+		startRun(now());
+	}, false);
 
 	// Init
 	(async function bootstrap(){
@@ -338,6 +359,8 @@
 			renderAllTimes([]);
 			renderUsersBest([]);
 		}
+		// Prepare initial dots so you can start by clicking immediately
+		prepareRound();
 	})();
 })(); 
  
