@@ -262,7 +262,7 @@
           <p>Quick, practical lessons to level up your Google Sheets / Excel skills!</p>
 
           <div class="widgets-grid">
-            <div class="about-card">
+            <div class="about-card" id="info-basics">
               <h3>Basics: References & Arithmetic</h3>
               <p>Use cell references and operators to compute values.</p>
               
@@ -304,7 +304,6 @@
                   <div class="sheet-c"></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-basics">Check</div>
                   <div class="pill" id="toggle-basics-hint">Show hint</div>
                 </div>
                 <div class="hint" id="basics-hintbox">
@@ -314,7 +313,7 @@
                       <li id="step-2">Then click the first cell to add it to the formula.</li>
                       <li id="step-3">Type + to add.</li>
                       <li id="step-4">Click the second cell to add it.</li>
-                      <li id="step-5">Press Enter or hit Check to confirm.</li>
+                      <li id="step-5">Press Enter to submit.</li>
                     </ul>
                   </div>
                 </div>
@@ -352,7 +351,6 @@
                   <div class="sheet-c"></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-multiply">Check</div>
                   <div class="pill" id="toggle-multiply-hint">Show hint</div>
                 </div>
                 <div class="hint" id="multiply-hintbox">
@@ -362,7 +360,7 @@
                       <li id="mul-step-2">Click the target cell to insert it.</li>
                       <li id="mul-step-3">Type * (asterisk) to multiply.</li>
                       <li id="mul-step-4">Type the given number (e.g., 2 or 1.08).</li>
-                      <li id="mul-step-5">Press Enter or hit Check.</li>
+                      <li id="mul-step-5">Press Enter to submit.</li>
                     </ul>
                   </div>
                 </div>
@@ -405,7 +403,6 @@
                   <div class="sheet-c" id="abs-cellbox-D3"><div class="sheet-output" id="abs-out-D3"></div></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-absref">Check</div>
                   <div class="pill" id="toggle-absref-hint">Show hint</div>
                 </div>
                 <div class="row small" id="absref-rowchecks" style="gap:6px">
@@ -420,7 +417,7 @@
                       <li id="abs-step-2">Click the changing cell to insert it (e.g., A2).</li>
                       <li id="abs-step-3">Type * to multiply.</li>
                       <li id="abs-step-4">Type the absolute ref exactly like $C$1 (add $ before column and row).</li>
-                      <li id="abs-step-5">Press Enter or hit Check.</li>
+                      <li id="abs-step-5">Press Enter to submit.</li>
                       <li id="abs-step-6">Use the green square in D1 to drag down and fill D2/D3 (or click Fill Down). Absolute refs stay fixed; relative parts update per row. For adding across columns, try =A1+B1 and drag right in a real sheet—$ anchors let you freeze one side if needed.</li>
                     </ul>
                   </div>
@@ -429,7 +426,7 @@
               </div>
             </div>
 
-            <div class="about-card">
+            <div class="about-card" id="info-summaries">
               <h3>Summaries: SUM, AVERAGE, MIN, MAX</h3>
               <p>Aggregate values across ranges.</p>
               <p class="mono" style="font-size:12px;color:#9fb5d4">Syntax: =SUM(range), =AVERAGE(range), =MIN(range), =MAX(range) — range can be A1:A3 or A1:C1</p>
@@ -471,7 +468,6 @@
                   <div class="sheet-c"></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-sum">Check</div>
                   <div class="pill" id="toggle-sum-hint">Show hint</div>
                 </div>
                 <div class="hint" id="sum-hintbox">
@@ -480,7 +476,7 @@
                       <li id="sum-step-1">In D1, press = to start your formula.</li>
                       <li id="sum-step-2">Type the function name (SUM, AVERAGE, MIN, or MAX).</li>
                       <li id="sum-step-3">Type an opening parenthesis, then the range (e.g., A1:A3).</li>
-                      <li id="sum-step-4">Type a closing parenthesis and press Enter or hit Check.</li>
+                      <li id="sum-step-4">Type a closing parenthesis and press Enter to submit.</li>
                     </ul>
                   </div>
                 </div>
@@ -488,7 +484,7 @@
               </div>
             </div>
 
-            <div class="about-card">
+            <div class="about-card" id="info-counting">
               <h3>Counting: COUNT & COUNTIF</h3>
               <p>Count numbers or matches to a criterion.</p>
               <p class="mono" style="font-size:12px;color:#9fb5d4">Syntax: =COUNT(range), =COUNTIF(range, criterion) — range can be A1:A3 or A1:C1</p>
@@ -528,7 +524,6 @@
                   <div class="sheet-c"></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-count">Check</div>
                   <div class="pill" id="toggle-count-hint">Show hint</div>
                 </div>
                 <div class="hint" id="count-hintbox">
@@ -537,7 +532,7 @@
                       <li id="count-step-1">In D1, press = to start your formula.</li>
                       <li id="count-step-2">Type the function name (COUNT or COUNTIF).</li>
                       <li id="count-step-3">For COUNTIF, add a comma and a criterion like ">=10" or "Yes".</li>
-                      <li id="count-step-4">Close with ) and press Enter or hit Check.</li>
+                      <li id="count-step-4">Close with ) and press Enter to submit.</li>
                     </ul>
                   </div>
                 </div>
@@ -545,7 +540,7 @@
               </div>
             </div>
 
-            <div class="about-card">
+            <div class="about-card" id="info-logic">
               <h3>Logic: IF, IFS, AND, OR</h3>
               <p>Branch based on conditions.</p>
               <p class="mono" style="font-size:12px;color:#9fb5d4">Syntax: =IF(test, value_if_true, value_if_false) • =IFS(test1, value1, test2, value2, …) • =AND(test1, test2, …) • =OR(test1, test2, …)</p>
@@ -586,7 +581,6 @@
                   <div class="sheet-c"></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-ififs">Check</div>
                   <div class="pill" id="toggle-ififs-hint">Show hint</div>
                 </div>
                 <div class="hint" id="ififs-hintbox">
@@ -596,7 +590,7 @@
                       <li>Type IF or IFS to match the task.</li>
                       <li>Build the test(s) using the provided cells and thresholds.</li>
                       <li>Type the outputs in quotes, separated by commas.</li>
-                      <li>Close with ) and press Enter or hit Check.</li>
+                      <li>Close with ) and press Enter to submit.</li>
                     </ul>
                   </div>
                 </div>
@@ -634,7 +628,6 @@
                   <div class="sheet-c"></div>
                 </div>
                 <div class="row small" style="margin-top:6px">
-                  <div class="pill" id="check-logic">Check</div>
                   <div class="pill" id="toggle-logic-hint">Show hint</div>
                 </div>
                 <div class="hint" id="logic-hintbox">
@@ -642,8 +635,8 @@
                     <ul class="trainer-steps" id="logic-steps">
                       <li>In D1, press = to start your formula.</li>
                       <li>Type IF, then AND(...) or OR(...) with the given tests.</li>
-                      <li>Provide the outputs in quotes, e.g., "OK" and "No".</li>
-                      <li>Close with ) and press Enter or hit Check.</li>
+                       <li>Provide the outputs in quotes, e.g., "OK" and "Check".</li>
+                      <li>Close with ) and press Enter to submit.</li>
                     </ul>
                   </div>
                 </div>
@@ -1186,6 +1179,7 @@
         // Basics trainer: fake spreadsheet with guided steps, random task, checker
         const refs = ['A1','B1','C1','D1','A2','B2','C2','A3','B3','C3'];
         const numberRefs = refs.filter(r => !/^D/.test(r));
+        const root = document.getElementById('basics-trainer');
         const inputsByRef = Object.fromEntries(refs.map(r => [r, document.getElementById('cell-' + r)]));
         const d1 = inputsByRef['D1'];
         const d1Box = document.getElementById('cellbox-D1');
@@ -1230,7 +1224,7 @@
           target1 = r1;
           target2 = r2;
           if (taskEl) {
-            taskEl.textContent = `Task: In D1, add ${target1} + ${target2} and press Enter.`;
+            taskEl.textContent = `Task: In D1, add ${target1} + ${target2}. Press Enter to submit.`;
           }
           // Update hint steps to mention "first" and "second" cells
           if (steps.s2) steps.s2.textContent = `Then click ${target1} to add it to the formula.`;
@@ -1314,6 +1308,7 @@
             setValueMode(true);
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅  D1 = ${target1} + ${target2} = ${sum}`;
+            if (root) root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'basics' } }));
             updateSteps(true);
             return true;
           } else {
@@ -1326,6 +1321,7 @@
 
         function resetAll() {
           populateRandomData();
+          pickTargets();
           statusEl.className = 'trainer-status';
           statusEl.textContent = '';
           updateSteps(false);
@@ -1414,7 +1410,7 @@
         function pickTask() {
           targetRef = randomChoice(refs);
           targetConst = randomChoice(multipliers);
-          if (taskEl) taskEl.textContent = `Task: In D1, multiply ${targetRef} by ${targetConst}.`;
+          if (taskEl) taskEl.textContent = `Task: In D1, multiply ${targetRef} by ${targetConst}. Press Enter to submit.`;
         }
         function setValueMode(on) {
           if (!d1Box) return;
@@ -1474,6 +1470,7 @@
             setValueMode(true);
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅  D1 = ${targetRef} * ${targetConst} = ${val}`;
+            root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'multiply' } }));
             return true;
           } else {
             statusEl.className = 'trainer-status err';
@@ -1552,7 +1549,7 @@
           const vertical = Math.random() < 0.5;
           if (vertical) { rangeStart = 'A1'; rangeEnd = 'A3'; }
           else { rangeStart = 'A1'; rangeEnd = 'C1'; }
-          if (taskEl) taskEl.textContent = `Task: In D1, compute ${func} over ${rangeStart}:${rangeEnd}.`;
+          if (taskEl) taskEl.textContent = `Task: In D1, compute ${func} over ${rangeStart}:${rangeEnd}. Press Enter to submit.`;
         }
         function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
         function normalizeFormula(text) { return (text || '').replace(/\s+/g, '').toUpperCase(); }
@@ -1644,6 +1641,7 @@
             setValueMode(true);
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅  D1 = ${func}(${rangeStart}:${rangeEnd}) = ${val}`;
+            root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'summaries' } }));
             return true;
           } else {
             statusEl.className = 'trainer-status err';
@@ -1772,11 +1770,11 @@
             ifThreshold = randomChoice([30, 50, 60, 70, 80]);
             ifTrue = 'Pass';
             ifFalse = 'Fail';
-            if (taskEl) taskEl.textContent = `Task: In D1, use IF to return "Pass" if ${ifRef} ${ifOp} ${ifThreshold}, otherwise "Fail".`;
+            if (taskEl) taskEl.textContent = `Task: In D1, use IF to return "Pass" if ${ifRef} ${ifOp} ${ifThreshold}, otherwise "Fail". Press Enter to submit.`;
           } else {
             baseRef = randomChoice(['A1','B1','A2','B2','A3','B3']);
             // Keep tiers as 80/50
-            if (taskEl) taskEl.textContent = `Task: In D1, use IFS to return "High" if ${baseRef}>=80, "Mid" if ${baseRef}>=50, otherwise "Low".`;
+            if (taskEl) taskEl.textContent = `Task: In D1, use IFS to return "High" if ${baseRef}>=80, "Mid" if ${baseRef}>=50, otherwise "Low". Press Enter to submit.`;
           }
         }
 
@@ -1813,6 +1811,7 @@
             setValueMode(true);
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅`;
+            root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'ififs' } }));
             return true;
           } else {
             statusEl.className = 'trainer-status err';
@@ -1872,7 +1871,7 @@
         let numOp = '>=';
         let numThreshold = 10;
         let outTrue = 'OK';
-        let outFalse = 'No';
+        let outFalse = 'Check';
 
         function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
         function randomChoice(arr){ return arr[randomInt(0, arr.length - 1)]; }
@@ -1893,7 +1892,7 @@
           numThreshold = randomChoice([5, 10, 12, 15]);
           yesRef = 'B1'; numRef = 'C1';
           const condText = `${yesRef}="Yes" ${gate} ${numRef}${numOp}${numThreshold}`;
-          if (taskEl) taskEl.textContent = `Task: In D1, use IF with ${gate} to return "OK" if ${condText}, otherwise "No".`;
+          if (taskEl) taskEl.textContent = `Task: In D1, use IF with ${gate} to return "OK" if ${condText}, otherwise "Check". Press Enter to submit.`;
         }
         function expectedFormula() {
           return `=IF(${gate}(${yesRef}="Yes",${numRef}${numOp}${numThreshold}),"${outTrue}","${outFalse}")`.toUpperCase();
@@ -1918,6 +1917,7 @@
             setValueMode(true);
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅`;
+            root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'logic' } }));
             return true;
           } else {
             statusEl.className = 'trainer-status err';
@@ -2004,8 +2004,8 @@
           else { rangeStart = 'A1'; rangeEnd = 'C1'; }
           if (func === 'COUNTIF') criterion = randomChoice(CRITERIA);
           if (taskEl) {
-            if (func === 'COUNT') taskEl.textContent = `Task: In D1, compute COUNT over ${rangeStart}:${rangeEnd} (numbers only).`;
-            else taskEl.textContent = `Task: In D1, compute COUNTIF over ${rangeStart}:${rangeEnd} with criterion ${criterion === 'Yes' ? '"Yes"' : criterion}.`;
+            if (func === 'COUNT') taskEl.textContent = `Task: In D1, compute COUNT over ${rangeStart}:${rangeEnd} (numbers only). Press Enter to submit.`;
+            else taskEl.textContent = `Task: In D1, compute COUNTIF over ${rangeStart}:${rangeEnd} with criterion ${criterion === 'Yes' ? '"Yes"' : criterion}. Press Enter to submit.`;
           }
         }
         function setValueMode(on) { if (on) d1Box.classList.add('value-mode'); else d1Box.classList.remove('value-mode'); }
@@ -2112,6 +2112,7 @@
             setValueMode(true);
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅  D1 = ${func}(${rangeStart}:${rangeEnd}${func==='COUNT' ? '' : `, ${criterion === 'Yes' ? '"Yes"' : criterion}`}) = ${val}`;
+            root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'counting' } }));
             return true;
           } else {
             statusEl.className = 'trainer-status err';
@@ -2277,7 +2278,7 @@
           anchorRef = 'A1';
           const varPool = ['B1','C1'];
           varRef = randomChoice(varPool);
-          if (taskEl) taskEl.textContent = `Task: In D1, multiply ${varRef} by the fixed rate in $${anchorRef[0]}$${anchorRef.slice(1)} using an absolute reference.`;
+          if (taskEl) taskEl.textContent = `Task: In D1, multiply ${varRef} by the fixed rate in $${anchorRef[0]}$${anchorRef.slice(1)} using an absolute reference. Press Enter to submit.`;
           // Update hint steps for the specific refs
           const s2 = document.getElementById('abs-step-2');
           const s4 = document.getElementById('abs-step-4');
@@ -2386,6 +2387,7 @@
             statusEl.className = 'trainer-status ok';
             statusEl.textContent = `Correct ✅  D1 = ${varRef} * $${anchorRef[0]}$${anchorRef.slice(1)} = ${val}`;
             updateRowChecks();
+            root.dispatchEvent(new CustomEvent('trainer-correct', { bubbles: true, detail: { id: 'absref' } }));
             return true;
           } else {
             statusEl.className = 'trainer-status err';
@@ -2459,6 +2461,205 @@
         }
         // init
         pickTask(); populateRandomData();
+      })();
+    </script>
+    <script>
+      (function(){
+        // Spreadsheet Learner UI: collapsible sections, per-subject progress, corner check
+        const subjectOrder = [
+          { id:'basics', rootId:'basics-trainer', resetId:'reset-basics' },
+          { id:'multiply', rootId:'multiply-trainer', resetId:'reset-multiply' },
+          { id:'absref', rootId:'absref-trainer', resetId:'reset-absref' },
+          { id:'summaries', rootId:'summaries-trainer', resetId:'reset-sum' },
+          { id:'counting', rootId:'counting-trainer', resetId:'reset-count' },
+          { id:'ififs', rootId:'ififs-trainer', resetId:'reset-ififs' },
+          { id:'logic', rootId:'logic-trainer', resetId:'reset-logic' },
+        ];
+        const REQUIRED = 4;
+        const tab = document.getElementById('widgets-tab');
+        if (!tab) return;
+        const grid = tab.querySelector('.widgets-grid');
+        if (!grid) return;
+
+        // Track progress per subject
+        const progress = new Map(subjectOrder.map(s => [s.id, 0]));
+        const subjectIdByRootId = Object.fromEntries(subjectOrder.map(s => [s.rootId, s.id]));
+        const rootIdBySubjectId = Object.fromEntries(subjectOrder.map(s => [s.id, s.rootId]));
+        const groups = new Map(); // infoCardId -> { trainerRootIds: string[], subjectIds: string[], currentIdx: number }
+
+        function ensureProgressUI(root, id) {
+          const taskEl = root.querySelector('.trainer-task');
+          if (taskEl && !root.querySelector('.trainer-progress')) {
+            const prog = document.createElement('div');
+            prog.className = 'trainer-progress mono';
+            prog.style.marginTop = '6px';
+            prog.textContent = `Progress: 0/${REQUIRED} correct. Press Enter to submit.`;
+            taskEl.insertAdjacentElement('afterend', prog);
+            const bar = document.createElement('div');
+            bar.className = 'trainer-progressbar';
+            const fill = document.createElement('div');
+            fill.className = 'fill';
+            bar.appendChild(fill);
+            prog.insertAdjacentElement('afterend', bar);
+          }
+          // Corner check element on card
+          const card = root.closest('.about-card');
+          if (card && !card.querySelector('.trainer-corner-check')) {
+            const badge = document.createElement('div');
+            badge.className = 'trainer-corner-check';
+            badge.textContent = '✓';
+            card.appendChild(badge);
+          }
+          updateProgressUI(id);
+        }
+
+        function updateProgressUI(id) {
+          const subj = subjectOrder.find(s => s.id === id);
+          if (!subj) return;
+          const root = document.getElementById(subj.rootId);
+          const progEl = root && root.querySelector('.trainer-progress');
+          if (progEl) progEl.textContent = `Progress: ${progress.get(id)}/${REQUIRED} correct. Press Enter to submit.`;
+          const bar = root && root.querySelector('.trainer-progressbar .fill');
+          if (bar) {
+            const pct = Math.min(1, (progress.get(id) || 0) / REQUIRED) * 100;
+            bar.style.width = `${pct}%`;
+          }
+        }
+
+        // Initialize collapsible behavior and progress UI
+        // We only want info cards to be collapsible, not the practice cards
+        const groupedSubjects = new Set(subjectOrder.map(s => s.id));
+        subjectOrder.forEach(s => {
+          const root = document.getElementById(s.rootId);
+          if (!root) return;
+          ensureProgressUI(root, s.id);
+          const card = root.closest('.about-card');
+          if (!card) return;
+          // Skip adding individual collapsible UI for all subjects (handled by info cards)
+          if (groupedSubjects.has(s.id)) return;
+          card.classList.add('collapsible', 'collapsed');
+          const header = card.querySelector('h3');
+          if (header) {
+            header.addEventListener('click', () => {
+              card.classList.toggle('collapsed');
+              const input = root.querySelector('input.sheet-input[placeholder="="]') || root.querySelector('input.sheet-input[type="text"]');
+              if (!card.classList.contains('collapsed') && input) setTimeout(() => input.focus(), 50);
+            });
+          }
+        });
+
+        // Helper to build grouped dropdowns
+        function makeGroupById(infoCardId, trainerIds, expandedByDefault) {
+          const infoCard = document.getElementById(infoCardId);
+          if (!infoCard) return;
+          infoCard.classList.add('collapsible', 'collapsed', 'group-host');
+          // Create a group body container inside the info card and move trainer cards into it
+          let body = infoCard.querySelector('.group-body');
+          if (!body) {
+            body = document.createElement('div');
+            body.className = 'group-body';
+            // Place after the info content so the description stays at the top
+            infoCard.appendChild(body);
+          }
+          const trainerCards = trainerIds.map(id => {
+            const root = document.getElementById(id);
+            const card = root && root.closest('.about-card');
+            if (card && body && card.parentElement !== body) {
+              body.appendChild(card);
+              card.classList.add('group-child');
+            }
+            return card;
+          }).filter(Boolean);
+          // Gate multiple practices inside a group: show one practice at a time
+          const subjectIds = trainerIds.map(rootId => subjectIdByRootId[rootId]).filter(Boolean);
+          if (trainerCards.length > 1) {
+            trainerCards.forEach((card, i) => { if (card) card.style.display = (i === 0) ? '' : 'none'; });
+            groups.set(infoCardId, { trainerRootIds: trainerIds.slice(), subjectIds, currentIdx: 0 });
+          }
+          function setCollapsed(collapsed) {
+            infoCard.classList.toggle('collapsed', collapsed);
+          }
+          const header = infoCard.querySelector('h3');
+          if (header) {
+            header.addEventListener('click', () => {
+              const beforeTop = header.getBoundingClientRect().top;
+              const willCollapse = !infoCard.classList.contains('collapsed');
+              setCollapsed(willCollapse);
+              // Focus first input in first trainer when expanding
+              if (!willCollapse) {
+                const firstRoot = document.getElementById(trainerIds[0]);
+                const input = firstRoot && (firstRoot.querySelector('input.sheet-input[placeholder="="]') || firstRoot.querySelector('input.sheet-input[type="text"]'));
+                if (input) setTimeout(() => input.focus(), 50);
+              }
+              // Keep header at same viewport position after expand/collapse
+              requestAnimationFrame(() => {
+                const afterTop = header.getBoundingClientRect().top;
+                window.scrollBy(0, afterTop - beforeTop);
+              });
+            });
+          }
+          setCollapsed(!expandedByDefault);
+        }
+
+        // Group (Basics open by default; include basics + multiply + absref)
+        makeGroupById('info-basics', ['basics-trainer','multiply-trainer','absref-trainer'], true);
+        // Group other sections (closed by default)
+        makeGroupById('info-summaries', ['summaries-trainer'], false);
+        makeGroupById('info-counting', ['counting-trainer'], false);
+        // Logic info groups both IF/IFS and AND/OR practices
+        makeGroupById('info-logic', ['ififs-trainer','logic-trainer'], false);
+
+        // Show a brief corner check and advance the current subject task
+        function onCorrect(id) {
+          const next = (progress.get(id) || 0) + 1;
+          progress.set(id, next);
+          updateProgressUI(id);
+          const subj = subjectOrder.find(s => s.id === id);
+          const root = subj && document.getElementById(subj.rootId);
+          const card = root && root.closest('.about-card');
+          const badge = card && card.querySelector('.trainer-corner-check');
+          if (badge) {
+            badge.classList.add('show');
+            setTimeout(() => badge.classList.remove('show'), 900);
+          }
+          // Auto-generate a new task if still progressing on this subject
+          if (next < REQUIRED) {
+            const resetBtn = subj && document.getElementById(subj.resetId);
+            if (resetBtn) setTimeout(() => resetBtn.click(), 650);
+            return;
+          }
+          // If reached REQUIRED, advance within the group if multiple practices exist
+          // Find a group that contains this subjectId
+          for (const [infoId, g] of groups.entries()) {
+            const idx = g.subjectIds.indexOf(id);
+            if (idx === -1) continue;
+            if (idx === g.currentIdx && idx < g.trainerRootIds.length - 1) {
+              const currentRootId = g.trainerRootIds[g.currentIdx];
+              const nextRootId = g.trainerRootIds[g.currentIdx + 1];
+              const currentCard = document.getElementById(currentRootId)?.closest('.about-card');
+              const nextCard = document.getElementById(nextRootId)?.closest('.about-card');
+              if (currentCard && nextCard) {
+                currentCard.style.display = 'none';
+                nextCard.style.display = '';
+                g.currentIdx += 1;
+                // Focus first input of next practice and reset it to show a new task
+                const resetNext = subjectOrder.find(s => s.rootId === nextRootId);
+                const resetBtn = resetNext && document.getElementById(resetNext.resetId);
+                if (resetBtn) setTimeout(() => resetBtn.click(), 150);
+                const nextInput = document.getElementById(nextRootId)?.querySelector('input.sheet-input[placeholder="="]') || document.getElementById(nextRootId)?.querySelector('input.sheet-input[type="text"]');
+                if (nextInput) setTimeout(() => nextInput.focus(), 300);
+              }
+            }
+            break;
+          }
+        }
+
+        grid.addEventListener('trainer-correct', (e) => {
+          const id = e && e.detail && e.detail.id;
+          if (!id) return;
+          onCorrect(id);
+        });
+
       })();
     </script>
     <script type="module" src="aim.js"></script>
